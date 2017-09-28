@@ -21,9 +21,17 @@ module.exports = {
       });
   },
 
-  addTodo: function (knex, todo) {
+  addTodo: function (knex, req, res) {
+
+    const item = {
+      item: req.body.text,
+      completed_toggle: 0,
+      user_id: req.session.user_id,
+      category_id: 1
+    }
+
     knex("todos")
-      .insert(todo);
+      .insert(item);
   },
 
   removeTodo: function (knex, todoid) {

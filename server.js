@@ -85,7 +85,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  queries.getTodoList(knex, req, res);
+  queries.addTodo(knex, req, res);
   res.redirect('/');
 });
 
