@@ -8,7 +8,7 @@ module.exports = knex => {
 
     knex
       .select("*")
-      .from("todos")
+      .from("users")
       .then(results => {
         res.json(results);
       });
