@@ -9,12 +9,12 @@ exports.up = function(knex, Promise) {
     }),
 
     knex.schema.createTable('categories', function(table) {
-      table.integer('id').notNullable().primary();
+      table.increments().notNullable().primary();
       table.string('name').notNullable();
     }),
 
     knex.schema.createTable('todos', function(table) {
-      table.integer('id').notNullable().primary()
+      table.increments().notNullable().primary()
       table.string('item').notNullable();
       table.boolean('completed_toggle').notNullable();
       table.integer('user_id').notNullable();
@@ -23,7 +23,7 @@ exports.up = function(knex, Promise) {
     }),
 
     knex.schema.createTable('keywords', function(table) {
-      table.integer('id').notNullable().primary();
+      table.increments().notNullable().primary();
       table.string('keyword').notNullable();
       table.integer('category_id').notNullable();
     })
