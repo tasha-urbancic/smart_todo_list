@@ -19,5 +19,17 @@ module.exports = {
       .then(results => {
         res.json(results);
       });
+  },
+
+  addTodo: function (knex, todo) {
+    knex("todos")
+      .insert(todo);
+  },
+
+  removeTodo: function (knex, todoid) {
+    knex("todos")
+      .del()
+      .where(todos.id, todoid);
   }
+
 };
