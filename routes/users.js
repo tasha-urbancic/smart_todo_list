@@ -5,6 +5,7 @@ const router = express.Router();
 
 module.exports = knex => {
   router.get("/", (req, res) => {
+
     knex
       .select("*")
       .from("todos")
