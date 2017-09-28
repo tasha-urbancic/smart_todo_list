@@ -5,9 +5,10 @@ const router = express.Router();
 
 module.exports = knex => {
   router.get("/", (req, res) => {
+
     knex
       .select("*")
-      .from("todos")
+      .from("users")
       .then(results => {
         res.json(results);
       });
