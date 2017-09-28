@@ -20,6 +20,7 @@ module.exports = {
         res.json(results);
       });
   },
+
   addTodo: function(knex, req, res) {
     const item = {
       item: req.body.text,
@@ -33,12 +34,13 @@ module.exports = {
       .asCallback(results => {
         res.json(results);
       });
-  }
-  /*
+  },
+
   removeTodo: function (knex, todoid) {
     knex("todos")
+      .where("todos.id", todoid)
       .del()
-      .where(todos.id, todoid);
+      .asCallback();
   }
-  */
+
 };
