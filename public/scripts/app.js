@@ -12,7 +12,6 @@ $(() => {
     }
   });
 
-
   // set up listener on click of button
   // on click do an ajax call to prevent default, and do the post for you
 

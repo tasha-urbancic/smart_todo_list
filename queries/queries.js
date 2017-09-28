@@ -20,24 +20,25 @@ module.exports = {
         res.json(results);
       });
   },
-
-  addTodo: function (knex, req, res) {
-
+  addTodo: function(knex, req, res) {
     const item = {
       item: req.body.text,
       completed_toggle: 0,
       user_id: req.session.user_id,
       category_id: 1
-    }
+    };
 
     knex("todos")
-      .insert(item);
-  },
-
+      .insert(item)
+      .asCallback(results => {
+        res.json(results);
+      });
+  }
+  /*
   removeTodo: function (knex, todoid) {
     knex("todos")
       .del()
       .where(todos.id, todoid);
   }
-
+  */
 };
