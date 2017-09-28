@@ -21,7 +21,7 @@ $(() => {
 
   loadTodos();
 
-  $(".todo-button").on("click", function(event) {
+  function createNewTodo(event) {
     
     var text = $(".todo-post-box").val();
     var categoryId = 1;
@@ -36,10 +36,18 @@ $(() => {
       url: "/",
       data: {text: text}
     }).done(function() {
-      // success function
+      $(".todo-post-box").val('');
     }).fail( function (err) {
       $("ul[data-category=" + categoryId + "]").first().remove();
     });
+  }
+
+  $(".todo-button").on("click", createNewTodo);
+
+  $(".todo-post-box").on("keypress", function(event) {
+    if (event.which === 13) {
+      createNewTodo(event);
+    }
   });
 
 });
