@@ -85,6 +85,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
+  console.log(req.body.text);
   queries.addTodo(knex, req, res);
   res.redirect('/');
 });
