@@ -1,39 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta Content-Type="application/x-www-form-urlencoded" charset="UTF-8">
-    <title>Smart TODO - Home Page</title>
-    <link href="https://fonts.googleapis.com/css?family=Cookie|Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script src=https://use.fontawesome.com/22ba363c8a.js></script>
-  </head>
 
-    <body>
-      <!-- Top nav bar (fixed) -->
-    <nav id="nav-bar">
-      <span class="text-center">
+<head>
+  <meta Content-Type="application/x-www-form-urlencoded" charset="UTF-8">
+  <title>Smart TODO - Home Page</title>
+  <link href="https://fonts.googleapis.com/css?family=Cookie|Raleway" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script src=https://use.fontawesome.com/22ba363c8a.js></script>
+</head>
+
+<body>
+  <!-- Top nav bar (fixed) -->
+  <nav id="nav-bar">
+    <span class="text-center">
         <p class='header'>Smart To-Do List</p>
       </span>
-    </nav>
+  </nav>
 
-    <main>
+  <main>
+
+    <section class="new-todo">
+      <form action="/" method="POST">
+        <textarea name="text" placeholder="What do you want to do?"></textarea>
+        <input class="todo-button" type="submit" name="todo-item" value="todo-item">
+      </form>
+    </section>
+
+    <div class='todo-lists'>
       <div class="container">
         <div class="row">
-
           <% for (var key in categories) { %>
             <div class='col'>
-              <div class= '<%="todo-list-" + key%> todo-list'>
-                <h5 class="text-center"><%=categories[key].name%></h5>
-                <ul data-category = '<%=categories[key].id%>' ></ul>
+              <div class='<%="todo-list-" + key%> todo-list'>
+                <h5 class="text-center">
+                  <%=categories[key].name%>
+                </h5>
+                <ul data-category='<%=categories[key].id%>'></ul>
               </div>
             </div>
-          <% } %>
-
+            <% } %>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
-  </body>
+</body>
+
 </html>

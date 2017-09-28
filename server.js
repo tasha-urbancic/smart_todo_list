@@ -9,6 +9,7 @@ const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
+const queries = require('./queries/queries');
 
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
@@ -71,7 +72,6 @@ app.get("/user/:id/login", (req, res) => {
   res.redirect('/');
 });
 
-
 // Home page
 app.get("/", (req, res) => {
   knex
@@ -82,6 +82,11 @@ app.get("/", (req, res) => {
         categories: results
       });
     });
+});
+
+app.post("/", (req, res) => {
+  queries.getTodoList(knex, req, res);
+  res.redirect('/');
 });
 
 // submit new todo
