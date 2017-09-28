@@ -85,18 +85,8 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  console.log(req.body.text);
   queries.addTodo(knex, req, res);
-  res.redirect('/');
 });
-
-// submit new todo
-// app.post("/", (req, res) => {
-//   //user.id
-//   //item
-//   //completed_toggle
-//   //
-// })
 
 
 app.listen(PORT, () => {
