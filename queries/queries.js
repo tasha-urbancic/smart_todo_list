@@ -22,14 +22,18 @@ module.exports = {
   },
 
   addTodo: function (knex, todo) {
+    console.log(todo);
     knex("todos")
-      .insert(todo);
-  },
+      .insert(todo)
+      .asCallback();
+  }
 
+  /*
   removeTodo: function (knex, todoid) {
     knex("todos")
       .del()
       .where(todos.id, todoid);
   }
+  */
 
 };
