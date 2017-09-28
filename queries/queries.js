@@ -22,6 +22,7 @@ module.exports = {
   },
 
   addTodo: function(knex, req, res) {
+
     const item = {
       item: req.body.text,
       completed_toggle: 0,
