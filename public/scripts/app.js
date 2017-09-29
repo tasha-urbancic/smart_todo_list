@@ -12,6 +12,9 @@ $(() => {
         var categoryId = todos[i].category_id;
 
         const listItem = $("<li>").addClass("item-wrapper");
+        const trash = $("<i>").addClass("fa fa-trash-o").attr("aria-hidden", "true");
+        const trashDiv = $('<div>').addClass('delete-button').append(trash);
+
         listItem
           .append(
             $("<i>")
@@ -24,12 +27,7 @@ $(() => {
               .addClass("item-text")
               .text(todos[i].item)
           )
-          .append(
-            $("<i>")
-              .addClass("fa fa-trash-o")
-              .addClass("delete-button")
-              .attr("aria-hidden", "true")
-          )
+          .append(trashDiv)
           .append(
             $("<i>")
               .addClass("fa fa-circle")
@@ -50,6 +48,9 @@ $(() => {
     var text = $(".todo-post-box").val();
     var categoryId = 1;
 
+    const trash = $("<i>").addClass("fa fa-trash-o").attr("aria-hidden", "true");
+    const trashDiv = $('<div>').addClass('delete-button').append(trash);
+
     const listItem = $("<li>").addClass("item-wrapper");
     listItem
       .append(
@@ -63,12 +64,7 @@ $(() => {
           .addClass("item-text")
           .text(text)
       )
-      .append(
-        $("<i>")
-          .addClass("fa fa-trash-o")
-          .addClass("delete-button")
-          .attr("aria-hidden", "true")
-      )
+      .append(trashDiv)
       .append(
         $("<i>")
           .addClass("fa fa-circle")
