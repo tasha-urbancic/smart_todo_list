@@ -31,25 +31,31 @@ module.exports = {
 
     knex("todos")
       .insert(item)
-      .asCallback(results => {
-        res.json(results);
+      .returning("id")
+      .then(id => {
+        let tempObject = {
+          id: id
+        };
+        res.send(tempObject);
       });
+
   },
 
-  removeTodo: function (knex, todoid) {
+  removeTodo: function(knex, req, res) {
+    console.log(req.body.id);
     knex("todos")
-      .where("todos.id", todoid)
+      .where("todos.id", req.body.id)
       .del()
       .asCallback();
   },
 
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
 
-  updateTodo: function (knex, todoid, item, category_id) {
+  updateTodo: function(knex, todoid, item, category_id) {
     let updateObject = {};
     if (item !== undefined) {
       updateObject.item = item;
-    };
+    }
     if (category_id !== undefined) {
       updateObject.category_id = category_id;
     }
@@ -58,5 +64,4 @@ module.exports = {
       .update(updateObject)
       .asCallback();
   }
-
 };

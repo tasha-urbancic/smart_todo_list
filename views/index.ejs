@@ -24,23 +24,28 @@
     <section>
       <form class="new-todo" action="/" method="POST">
         <textarea class='todo-post-box' name="text" placeholder="What do you want to do?"></textarea>
-        <input class="todo-button" type="submit" name="todo-item" value="todo-item">
+        <input class="todo-button" type="submit" name="todo-item" value="add">
       </form>
     </section>
 
     <div class='todo-lists'>
       <div class="container">
-        <div class="row">
+
           <% for (var key in categories) { %>
-            <div class='col'>
-              <div class='<%="todo-list-" + key%> todo-list'>
-                <h5 class="text-center">
-                  <%=categories[key].name%>
-                </h5>
-                <ul data-category='<%=categories[key].id%>'></ul>
+            <div class="row">
+              <div class='col'>
+                <div class='<%="todo-list-" + key%> todo-list'>
+                  <div class="text-center">
+                    <h5>
+                      <%=categories[key].name%>
+                    </h5>
+                  </div>
+                  <ul data-category='<%=categories[key].id%>'></ul>
+                </div>
               </div>
             </div>
-            <% } %>
+          <% } %>
+
         </div>
       </div>
     </div>

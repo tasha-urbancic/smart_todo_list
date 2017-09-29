@@ -84,19 +84,13 @@ app.get("/", (req, res) => {
     });
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body.text);
-  queries.addTodo(knex, req, res);
-  res.redirect('/');
+app.post("/:todo_id/delete", (req, res) => {
+  queries.removeTodo(knex, req, res);
 });
 
-// submit new todo
-// app.post("/", (req, res) => {
-//   //user.id
-//   //item
-//   //completed_toggle
-//   //
-// })
+app.post("/", (req, res) => {
+  queries.addTodo(knex, req, res);
+});
 
 
 app.listen(PORT, () => {
