@@ -13,13 +13,13 @@ function createTodo(itemObj) {
     .addClass("fa fa-circle-o")
     .attr("aria-hidden", "true");
   const markerDiv = $("<div>")
-    .addClass("delete-button")
+    .addClass("marker-button")
     .append(marker);
   const circle = $("<i>")
     .addClass("fa fa-circle")
     .attr("aria-hidden", "true");
   const circleDiv = $("<div>")
-    .addClass("delete-button")
+    .addClass("circle-button")
     .append(circle);
 
   listItem
@@ -85,15 +85,33 @@ $(() => {
       });
   }
 
+  // function hideButtons() {
+  //   $('document').on('ready', '.fa-trash-o', function() {
+  //     $(this).hide();
+  //   });
+
+  //   // $(".todo-list").find('.delete-button').find('.fa-trash-o').hide();
+  //   // $(".todo-list").children().find('.circle-button').find('.fa-circle').hide();
+  // }
+
+  hideButtons();
+
+  $(".todo-list").on("click", 'li', function(event) {
+    $(event.target).siblings('.delete-button').find('.fa-trash-o').toggle();
+    $(event.target).siblings('.circle-button').find('.fa-circle').toggle();
+  });
+
   $(".todo-list").on("click", ".fa-trash-o", function(event) {
     const itemId = $(event.target).closest('li').data('id');
+
+    // $(event.target).closest('li').remove();
 
     event.preventDefault();
     $.ajax({
       method: "POST",
       url: "/:todo_id/delete",
       data: { id: itemId }
-    }).done(function() {
+    }).fail(function(err) {
       $(event.target).closest('li').remove();
     });
   });
