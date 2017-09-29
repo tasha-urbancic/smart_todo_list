@@ -1,5 +1,7 @@
 function createTodo(itemObj) {
-  const listItem = $("<li>").addClass("item-wrapper").data('id', itemObj.id);
+  const listItem = $("<li>")
+    .addClass("item-wrapper")
+    .data("id", itemObj.id);
 
   const trash = $("<i>")
     .addClass("fa fa-trash-o")
@@ -61,13 +63,6 @@ $(() => {
 
   function createNewTodo(event) {
     var text = $(".todo-post-box").val();
-    var categoryId = 1;
-
-    createTodo({
-      text: text,
-      id: 1,
-      categoryId: categoryId
-    });
 
     event.preventDefault();
     $.ajax({
@@ -75,8 +70,13 @@ $(() => {
       url: "/",
       data: { text: text }
     })
-      .done(function() {
+      .done(function(result) {
         $(".todo-post-box").val("");
+        createTodo({
+          text: text,
+          id: result.id[0],
+          categoryId: 1
+        });
       })
       .fail(function(err) {
         $("ul[data-category=" + categoryId + "]")
@@ -85,15 +85,15 @@ $(() => {
       });
   }
 
-  $(".todo-list").on("click",".delete-button", function() {
-      console.log('yes');
+  $(".todo-list").on("click", ".fa-trash-o", function(event) {
+    cosnt itemId = $(event.target).closest('li').data('id'));
 
-      event.preventDefault();
-      $.ajax({
-        method: "POST",
-        url: "/:todo_id/delete",
-        data: { text: text }
-      })
+    event.preventDefault();
+    $.ajax({
+      method: "POST",
+      url: "/:todo_id/delete",
+      data: { id: itemId }
+    });
   });
 
   $(".todo-button").on("click", createNewTodo);
