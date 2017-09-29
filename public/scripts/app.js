@@ -143,7 +143,8 @@ $(() => {
       });
   }
 
-  function updateTodo(text, itemId) {
+
+  function updateTodo(text, itemId, $elem) {
     let data = { id: itemId, item: text };
     // later feed in categoryId into this data object
     $.ajax({
@@ -151,8 +152,8 @@ $(() => {
       url: "/:todo_id/update",
       data: {'data': data},
       success: function(res) {
-        // .attr("contentEditable", "true")
         console.log(res);
+        $elem.blur();
       }
     }).fail(function(err) {
       console.log(err);
@@ -166,7 +167,7 @@ $(() => {
       const itemId = $(event.target)
         .closest("li")
         .data("id");
-      updateTodo(text, itemId);
+      updateTodo(text, itemId, $(event.target));
     }
   });
 
