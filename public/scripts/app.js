@@ -94,7 +94,7 @@ $(() => {
   //   // $(".todo-list").children().find('.circle-button').find('.fa-circle').hide();
   // }
 
-  hideButtons();
+  // hideButtons();
 
   $(".todo-list").on("click", 'li', function(event) {
     $(event.target).siblings('.delete-button').find('.fa-trash-o').toggle();
