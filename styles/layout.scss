@@ -67,22 +67,38 @@ ul {
   border: 1px solid lighten(black, 90);
 }
 
-h5 {
-  padding: 5px;
+.todo-list {
+  padding: 0;
 }
 
 .todo-list-0 {
   background-color: #F1EFFB;
 }
 
+.todo-list-0 h5 {
+  background-color: #A09EB8;
+}
+
 .todo-list-1 {
   background-color: #FAF7E1;
+}
+
+.todo-list-1 h5 {
+  background-color: #F3E6BD;
 }
 
 .todo-list-2 {
   background-color: #EEF2FA; 
 }
+
+.todo-list-2 h5 {
+  background-color: rgba(78, 96, 133, 0.67); 
+}
   
 .todo-list-3 {
   background-color: #FAEEE3;
+}
+
+.todo-list-3 h5 {
+  background-color: #DFC29E;
 }
