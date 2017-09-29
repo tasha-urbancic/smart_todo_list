@@ -9,7 +9,7 @@ function createTodo(itemObj) {
   const trashDiv = $("<div>")
     .addClass("delete-button")
     .append(trash)
-    .css("display", "none");
+    .css("display", "inline-block");
   const marker = $("<i>")
     .addClass("fa fa-circle-o")
     .attr("aria-hidden", "true");
@@ -21,8 +21,8 @@ function createTodo(itemObj) {
     .attr("aria-hidden", "true");
   const circleDiv = $("<div>")
     .addClass("circle-button")
-    .append(circle)
-    .css("display", "none");
+    .append(circle);
+
 
   const circle1 = $("<i>")
       .addClass("fa fa-circle-o")
@@ -43,7 +43,12 @@ function createTodo(itemObj) {
       .append(circle2)
       .append(circle3)
       .append(circle4)
-      .css("display", "none");
+      .css("display", "inline-block");
+  const actionDiv = $('<div>')
+    .addClass("action-button")
+    .append(trashDiv)
+    .append(categoryDiv)
+    .css("display", "none");
 
 
   listItem
@@ -54,9 +59,8 @@ function createTodo(itemObj) {
         .attr("contentEditable", "true")
         .text(itemObj.text)
     )
-    .append(trashDiv)
-    .append(circleDiv)
-    .append(categoryDiv);
+
+    .append(actionDiv);
 
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
 }
@@ -179,9 +183,20 @@ $(() => {
 
 
   $(".todo-list").on("click", 'li', function(event) {
-    $(event.target).siblings('.delete-button').show();
-    $(event.target).siblings('.category-button').show();
-    $()
+    $(event.target).siblings('.action-button').show().css("display", "inline");
+    //$(event.target).siblings('.category-button').show();
+    $(document).mouseup(function(e) {
+      var container = $(event.target).siblings('.action-button');
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0)
+    {
+        container.hide();
+    }
+  // });
+  //     $(event.target).siblings('.delete-button').hide();
+  //     //$(event.target).siblings('.category-button').hide();
+    });
   });
 
 
