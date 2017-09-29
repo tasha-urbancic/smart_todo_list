@@ -182,8 +182,8 @@ $(() => {
       method: "POST",
       url: "/:todo_id/update-category",
       data: { data: data },
-      success: function(res) {
-        console.log(res);
+      success: function() {
+        console.log('successful');
         $elem.remove();
         createTodo({
           text: $elem.find('span').text(),
@@ -192,6 +192,7 @@ $(() => {
         });
       }
     }).fail(function(err) {
+      console.log('unsuccessful');
       console.log(err);
     });
 
@@ -205,17 +206,23 @@ $(() => {
     .closest("li")
     .data("id");
 
+    const listKey = $(event.target)
+    .closest("ul").data("key");
     const clickedKey = $(event.target).data('key');
 
-    var newCategoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
+    console.log('clickedKey' + clickedKey);
+    console.log('listKey' + listKey);
 
-    var $elem = $(event.target)
-    .closest("li");
+    if (clickedKey !== listKey) {
 
-    // update category in database
-    updateTodoCategory(newCategoryId, itemId, $elem);
+      var newCategoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
 
-    // remove li element? add element under new list?
+      var $elem = $(event.target)
+      .closest("li");
+
+      updateTodoCategory(newCategoryId, itemId, $elem);
+
+    }
 
   });
 

@@ -51,7 +51,6 @@ module.exports = {
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
 
   updateTodoText: function(knex, req, res) {
-    console.log(req.body.data.item);
 
     let updateObject = {};
     updateObject.item = req.body.data.item;
@@ -65,7 +64,6 @@ module.exports = {
       .asCallback(res);
   },
   updateTodoCategory: function(knex, req, res) {
-    console.log(req.body.data.category_id);
 
     let updateObject = {};
     updateObject.category_id = req.body.data.category_id;
