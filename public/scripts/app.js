@@ -175,28 +175,22 @@ $(() => {
   });
 
   $(".todo-list").on("click", ".category-button", function(event) {
-    event.preventDefault();
-    // console.log($(event.target).parent('ul').data('category'));
-    console.log($(event.target).data('key'));
-    
-    // update category in database
-    // remove li element? add element under new list?
 
-    // need li id, and new category_id of clicked button
+    event.preventDefault();
 
     const itemId = $(event.target)
-      .closest("li")
-      .data("id");
+    .closest("li")
+    .data("id");
+
+    const clickedKey = $(event.target).data('key');
+
+    var categoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
 
     
-    // updateTodoCategory(newCategoryId, itemId);
+    // update category in database
+    updateTodoCategory(newCategoryId, itemId);
 
-
-    // let text = $(event.target).text();
-    // const itemId = $(event.target)
-    //   .closest("li")
-    //   .data("id");
-    // updateTodo(text, itemId, $(event.target));
+    // remove li element? add element under new list?
 
   });
 
