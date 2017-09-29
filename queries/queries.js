@@ -41,9 +41,10 @@ module.exports = {
 
   },
 
-  removeTodo: function(knex, todoid) {
+  removeTodo: function(knex, req, res) {
+    console.log(req.body.id);
     knex("todos")
-      .where("todos.id", todoid)
+      .where("todos.id", req.body.id)
       .del()
       .asCallback();
   },

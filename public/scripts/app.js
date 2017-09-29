@@ -86,13 +86,15 @@ $(() => {
   }
 
   $(".todo-list").on("click", ".fa-trash-o", function(event) {
-    cosnt itemId = $(event.target).closest('li').data('id'));
+    const itemId = $(event.target).closest('li').data('id');
 
     event.preventDefault();
     $.ajax({
       method: "POST",
       url: "/:todo_id/delete",
       data: { id: itemId }
+    }).done(function() {
+      $(event.target).closest('li').remove();
     });
   });
 

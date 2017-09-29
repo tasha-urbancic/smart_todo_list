@@ -84,6 +84,10 @@ app.get("/", (req, res) => {
     });
 });
 
+app.post("/:todo_id/delete", (req, res) => {
+  queries.removeTodo(knex, req, res);
+});
+
 app.post("/", (req, res) => {
   queries.addTodo(knex, req, res);
 });
