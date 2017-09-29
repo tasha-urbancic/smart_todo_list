@@ -83,6 +83,17 @@ $(() => {
       });
   }
 
+  $(".todo-list").on("click",".delete-button", function() {
+      console.log('yes');
+
+      event.preventDefault();
+      $.ajax({
+        method: "POST",
+        url: "/:todo_id/delete",
+        data: { text: text }
+      })
+  });
+
   $(".todo-button").on("click", createNewTodo);
 
   $(".todo-post-box").on("keypress", function(event) {
