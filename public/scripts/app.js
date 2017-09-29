@@ -24,6 +24,27 @@ function createTodo(itemObj) {
     .append(circle)
     .css("display", "none");
 
+  const circle1 = $("<i>")
+      .addClass("fa fa-circle-o")
+      .addClass("fa fa-circle")
+      .attr("aria-hidden", "true");
+  const circle2 = $("<i>")
+      .addClass("fa fa-circle")
+      .attr("aria-hidden", "true");
+  const circle3 = $("<i>")
+      .addClass("fa fa-circle")
+      .attr("aria-hidden", "true");
+  const circle4 = $("<i>")
+      .addClass("fa fa-circle")
+      .attr("aria-hidden", "true");
+  const categoryDiv = $("<div>")
+      .addClass("category-button")
+      .append(circle1)
+      .append(circle2)
+      .append(circle3)
+      .append(circle4)
+      .css("display", "none");
+
 
   listItem
     .append(markerDiv)
@@ -34,7 +55,8 @@ function createTodo(itemObj) {
         .text(itemObj.text)
     )
     .append(trashDiv)
-    .append(circleDiv);
+    .append(circleDiv)
+    .append(categoryDiv);
 
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
 }
@@ -157,8 +179,15 @@ $(() => {
 
 
   $(".todo-list").on("click", 'li', function(event) {
-    $(event.target).siblings('.delete-button').toggle();
-    $(event.target).siblings('.circle-button').toggle();
+    $(event.target).siblings('.delete-button').show();
+    $(event.target).siblings('.category-button').show();
+    $()
+  });
+
+
+  $(".todo-list").on("click", ".circle-button", function(event) {
+    let $this = $(event.target).parent().parert();//('.category-button');//.toggle();
+    console.log($this);//const itemId = $(event.target).closest('li').data('id');
   });
 
   $(".todo-list").on("click", ".fa-trash-o", function(event) {
