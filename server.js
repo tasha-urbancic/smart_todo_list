@@ -93,6 +93,11 @@ app.post("/", (req, res) => {
   queries.addTodo(knex, req, res);
 });
 
+app.post("/:todo_id/update", (req, res) => {
+  queries.updateTodo(knex, req, res);
+  res.end('success: item updated');
+});
+
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

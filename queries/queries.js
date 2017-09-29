@@ -51,17 +51,19 @@ module.exports = {
 
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
 
-  updateTodo: function(knex, todoid, item, category_id) {
+  updateTodo: function(knex, req, res) {
+
+    console.log(req.body.data.item);
+
     let updateObject = {};
-    if (item !== undefined) {
-      updateObject.item = item;
-    }
-    if (category_id !== undefined) {
-      updateObject.category_id = category_id;
-    }
+    updateObject.item = req.body.data.item;
+
+    // updateObject.category_id = req.body.data.categoryId;
+    // later also update the category Id here
+
     knex("todos")
-      .where("todos.id", todoid)
+      .where("todos.id", req.body.data.id)
       .update(updateObject)
-      .asCallback();
+      .asCallback(res);
   }
 };

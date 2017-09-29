@@ -144,39 +144,31 @@ $(() => {
   }
 
   function updateTodo(text, itemId) {
-    // let text = $(".todo-post-box").val();
-    // const itemId = $(event.target).closest('li').data('id');
-    console.log(text);
-    console.log(itemId);
+    let data = { id: itemId, item: text };
+    // later feed in categoryId into this data object
+    $.ajax({
+      method: "POST",
+      url: "/:todo_id/update",
+      data: {'data': data},
+      success: function(res) {
+        // .attr("contentEditable", "true")
+        console.log(res);
+      }
+    }).fail(function(err) {
+      console.log(err);
+    });
   }
 
-  $("body")
-    .on("focus", "[contenteditable]", function() {
-      var $this = $(this);
-      $this.data("before", $this.html());
-      //console.log($this);
-      return $this;
-    })
-    .on("blur keyup paste input", "[contenteditable]", function() {
-      var $this = $(this);
-      if ($this.data("before") !== $this.html()) {
-        $this.data("before", $this.html());
-        $this.trigger("change");
-      }
-      //console.log($this);
-      return $this;
-    })
-    .on("keydown", function(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        let text = $this;
-        //console.log(text);
-        const itemId = $(event.target)
-          .closest("li")
-          .data("id");
-        updateTodo(text, itemId);
-      }
-    });
+  $("body").on("keypress", "[contenteditable]", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      let text = $(event.target).text();
+      const itemId = $(event.target)
+        .closest("li")
+        .data("id");
+      updateTodo(text, itemId);
+    }
+  });
 
   // .on('blur keyup paste input', '[contenteditable]', function() {
   //   var $this = $(this);
