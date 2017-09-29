@@ -3,15 +3,19 @@ function createCategoryCircles(catId) {
 
   const circle1 = $("<i>")
     .addClass("cat-color-0")
+    .data('key', 0)
     .attr("aria-hidden", "true");
   const circle2 = $("<i>")
     .addClass("cat-color-1")
+    .data('key', 1)
     .attr("aria-hidden", "true");
   const circle3 = $("<i>")
     .addClass("cat-color-2")
+    .data('key', 2)
     .attr("aria-hidden", "true");
   const circle4 = $("<i>")
     .addClass("cat-color-3")
+    .data('key', 3)
     .attr("aria-hidden", "true");
 
   if (keyNum === 0) {
@@ -143,14 +147,13 @@ $(() => {
       });
   }
 
-
   function updateTodo(text, itemId, $elem) {
     let data = { id: itemId, item: text };
     // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
       url: "/:todo_id/update",
-      data: {'data': data},
+      data: { data: data },
       success: function(res) {
         console.log(res);
         $elem.blur();
@@ -171,33 +174,31 @@ $(() => {
     }
   });
 
-  // .on('blur keyup paste input', '[contenteditable]', function() {
-  //   var $this = $(this);
-  //   if ($this.data('before') !== $this.html()) {
-  //       $this.data('before', $this.html());
-  //       $this.trigger('change');
-  //   }
-  //   return $this;
-  // });
+  $(".todo-list").on("click", ".category-button", function(event) {
+    event.preventDefault();
+    // console.log($(event.target).parent('ul').data('category'));
+    console.log($(event.target).data('key'));
+    
+    // update category in database
+    // remove li element? add element under new list?
 
-  // $(".item-wrapper").on("keypress", function(event) {
-  //   console.log('go');
-  //   $(this).on('keydown', function(e) {
-  //     console.log('no');
-  //     if (e.keyCode == 13) {
-  //       console.log('yes');
-  //       e.preventDefault();
-  //     }
-  //   })
-  // });
+    // need li id, and new category_id of clicked button
 
-  //   $(this).on('keydown', function(event) {
-  //     if (event.which === 13) {
-  //       event.preventDefault();
-  //       updateTodo(event);
-  //     }
-  //   })
-  // });
+    const itemId = $(event.target)
+      .closest("li")
+      .data("id");
+
+    
+    // updateTodoCategory(newCategoryId, itemId);
+
+
+    // let text = $(event.target).text();
+    // const itemId = $(event.target)
+    //   .closest("li")
+    //   .data("id");
+    // updateTodo(text, itemId, $(event.target));
+
+  });
 
   $(".todo-list").on("click", "li", function(event) {
     $(event.target)
