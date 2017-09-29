@@ -95,10 +95,12 @@ app.post("/", (req, res) => {
 
 app.post("/:todo_id/update-text", (req, res) => {
   queries.updateTodoText(knex, req, res);
+  res.end('success: todo item changed');
 });
 
 app.post("/:todo_id/update-category", (req, res) => {
   queries.updateTodoCategory(knex, req, res);
+  res.end('success: category changed');
 });
 
 
