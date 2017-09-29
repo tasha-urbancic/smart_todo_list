@@ -1,5 +1,4 @@
 function createTodo(itemObj) {
-  console.log(itemObj.id);
   const listItem = $("<li>").addClass("item-wrapper").data('id', itemObj.id);
 
   const trash = $("<i>")
@@ -49,7 +48,7 @@ $(() => {
 
         createTodo({
           text: todos[i].item,
-          id: todos[0].id,
+          id: todos[i].id,
           categoryId: categoryId
         });
       }
