@@ -93,9 +93,12 @@ app.post("/", (req, res) => {
   queries.addTodo(knex, req, res);
 });
 
-app.post("/:todo_id/update", (req, res) => {
-  queries.updateTodo(knex, req, res);
-  res.end('success: item updated');
+app.post("/:todo_id/update-text", (req, res) => {
+  queries.updateTodoText(knex, req, res);
+});
+
+app.post("/:todo_id/update-category", (req, res) => {
+  queries.updateTodoCategory(knex, req, res);
 });
 
 

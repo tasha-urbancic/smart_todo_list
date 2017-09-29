@@ -152,7 +152,7 @@ $(() => {
     // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
-      url: "/:todo_id/update",
+      url: "/:todo_id/update-text",
       data: { data: data },
       success: function(res) {
         console.log(res);
@@ -174,6 +174,29 @@ $(() => {
     }
   });
 
+  function updateTodoCategory(newCategoryId, itemId, $elem) {
+
+    let data = { id: itemId, category_id: newCategoryId };
+    // later feed in categoryId into this data object
+    $.ajax({
+      method: "POST",
+      url: "/:todo_id/update-category",
+      data: { data: data },
+      success: function(res) {
+        console.log(res);
+        $elem.remove();
+        createTodo({
+          text: $elem.find('span').text(),
+          id: itemId,
+          categoryId: newCategoryId
+        });
+      }
+    }).fail(function(err) {
+      console.log(err);
+    });
+
+  }
+
   $(".todo-list").on("click", ".category-button", function(event) {
 
     event.preventDefault();
@@ -184,11 +207,13 @@ $(() => {
 
     const clickedKey = $(event.target).data('key');
 
-    var categoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
+    var newCategoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
 
-    
+    var $elem = $(event.target)
+    .closest("li");
+
     // update category in database
-    updateTodoCategory(newCategoryId, itemId);
+    updateTodoCategory(newCategoryId, itemId, $elem);
 
     // remove li element? add element under new list?
 
