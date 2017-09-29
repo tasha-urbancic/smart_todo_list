@@ -46,7 +46,7 @@ module.exports = {
     knex("todos")
       .where("todos.id", req.body.id)
       .del()
-      .asCallback();
+      .asCallback(res);
   },
 
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.

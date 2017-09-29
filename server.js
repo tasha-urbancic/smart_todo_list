@@ -86,6 +86,7 @@ app.get("/", (req, res) => {
 
 app.post("/:todo_id/delete", (req, res) => {
   queries.removeTodo(knex, req, res);
+  res.end('success: item deleted');
 });
 
 app.post("/", (req, res) => {

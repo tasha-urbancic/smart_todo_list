@@ -24,6 +24,7 @@ function createTodo(itemObj) {
     .append(circle)
     .css("display", "none");
 
+
   listItem
     .append(markerDiv)
     .append(
@@ -105,16 +106,20 @@ $(() => {
 
   $(".todo-list").on("click", ".fa-trash-o", function(event) {
     const itemId = $(event.target).closest('li').data('id');
-
-    //$(event.target).closest('li').remove();
-
     event.preventDefault();
     $.ajax({
       method: "POST",
       url: "/:todo_id/delete",
-      data: { id: itemId }
-    }).fail(function(err) {
-      $(event.target).closest('li').empty();
+      data: { id: itemId },
+      success: function(res) {
+        console.log(res);
+      }
+    })
+    .done(function(result) {
+      $(event.target).closest('li').remove();
+    })
+    .fail(function(err) {
+      console.log(err);
     });
   });
 
