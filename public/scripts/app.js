@@ -1,3 +1,38 @@
+function createTodo(itemObj) {
+  const listItem = $("<li>").addClass("item-wrapper");
+
+  const trash = $("<i>")
+    .addClass("fa fa-trash-o")
+    .attr("aria-hidden", "true");
+  const trashDiv = $("<div>")
+    .addClass("delete-button")
+    .append(trash);
+  const marker = $("<i>")
+    .addClass("fa fa-circle-o")
+    .attr("aria-hidden", "true");
+  const markerDiv = $("<div>")
+    .addClass("delete-button")
+    .append(marker);
+  const circle = $("<i>")
+    .addClass("fa fa-circle")
+    .attr("aria-hidden", "true");
+  const circleDiv = $("<div>")
+    .addClass("delete-button")
+    .append(circle);
+
+  listItem
+    .append(markerDiv)
+    .append(
+      $("<span>")
+        .addClass("item-text")
+        .text(itemObj.text)
+    )
+    .append(trashDiv)
+    .append(circleDiv);
+
+  listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
+}
+
 $(() => {
   function getTodos() {
     return $.ajax({
@@ -11,31 +46,10 @@ $(() => {
       for (var i = 0; i < todos.length; i++) {
         var categoryId = todos[i].category_id;
 
-        const listItem = $("<li>").addClass("item-wrapper");
-        const trash = $("<i>").addClass("fa fa-trash-o").attr("aria-hidden", "true");
-        const trashDiv = $('<div>').addClass('delete-button').append(trash);
-
-        listItem
-          .append(
-            $("<i>")
-              .addClass("fa fa-circle-o")
-              .addClass("completed-button")
-              .attr("aria-hidden", "true")
-          )
-          .append(
-            $("<span>")
-              .addClass("item-text")
-              .text(todos[i].item)
-          )
-          .append(trashDiv)
-          .append(
-            $("<i>")
-              .addClass("fa fa-circle")
-              .addClass("edit-button")
-              .attr("aria-hidden", "true")
-          );
-
-        listItem.prependTo($("ul[data-category=" + categoryId + "]"));
+        createTodo({
+          text: todos[i].item,
+          categoryId: categoryId
+        });
       }
     });
   }
@@ -48,33 +62,11 @@ $(() => {
     var text = $(".todo-post-box").val();
     var categoryId = 1;
 
-    const trash = $("<i>").addClass("fa fa-trash-o").attr("aria-hidden", "true");
-    const trashDiv = $('<div>').addClass('delete-button').append(trash);
+    createTodo({
+      text: text,
+      categoryId: categoryId
+    });
 
-    const listItem = $("<li>").addClass("item-wrapper");
-    listItem
-      .append(
-        $("<i>")
-          .addClass("fa fa-circle-o")
-          .addClass("completed-button")
-          .attr("aria-hidden", "true")
-      )
-      .append(
-        $("<span>")
-          .addClass("item-text")
-          .text(text)
-      )
-      .append(trashDiv)
-      .append(
-        $("<i>")
-          .addClass("fa fa-circle")
-          .addClass("edit-button")
-          .attr("aria-hidden", "true")
-      );
-
-    listItem.prependTo($("ul[data-category=" + categoryId + "]"));
-
-    console.log(text);
     event.preventDefault();
     $.ajax({
       method: "POST",
