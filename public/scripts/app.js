@@ -30,6 +30,7 @@ function createTodo(itemObj) {
     .append(
       $("<span>")
         .addClass("item-text")
+        .attr("contentEditable", "true")
         .text(itemObj.text)
     )
     .append(trashDiv)
@@ -37,6 +38,7 @@ function createTodo(itemObj) {
 
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
 }
+
 
 $(() => {
   function getTodos() {
@@ -88,16 +90,71 @@ $(() => {
       });
   }
 
-  // function hideButtons() {
-  //   $('document').on('ready', '.fa-trash-o', function() {
-  //     $(this).hide();
-  //   });
 
-  //   // $(".todo-list").find('.delete-button').find('.fa-trash-o').hide();
-  //   // $(".todo-list").children().find('.circle-button').find('.fa-circle').hide();
-  // }
 
-  // hideButtons();
+
+
+  function updateTodo(text, itemId) {
+    // let text = $(".todo-post-box").val();
+    // const itemId = $(event.target).closest('li').data('id');
+    console.log(text);
+    console.log(itemId);
+  }
+
+
+
+  $('body').on('focus', '[contenteditable]', function() {
+    var $this = $(this);
+    $this.data('before', $this.html());
+    //console.log($this);
+    return $this;
+  }).on('blur keyup paste input', '[contenteditable]', function() {
+    var $this = $(this);
+    if ($this.data('before') !== $this.html()) {
+        $this.data('before', $this.html());
+        $this.trigger('change');
+    }
+    //console.log($this);
+    return $this;
+  }).on('keydown', function(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        let text = $this;
+        //console.log(text);
+        const itemId = $(event.target).closest('li').data('id');
+        updateTodo(text, itemId)
+      }
+  });
+
+  // .on('blur keyup paste input', '[contenteditable]', function() {
+  //   var $this = $(this);
+  //   if ($this.data('before') !== $this.html()) {
+  //       $this.data('before', $this.html());
+  //       $this.trigger('change');
+  //   }
+  //   return $this;
+  // });
+
+
+  // $(".item-wrapper").on("keypress", function(event) {
+  //   console.log('go');
+  //   $(this).on('keydown', function(e) {
+  //     console.log('no');
+  //     if (e.keyCode == 13) {
+  //       console.log('yes');
+  //       e.preventDefault();
+  //     }
+  //   })
+  // });
+
+  //   $(this).on('keydown', function(event) {
+  //     if (event.which === 13) {
+  //       event.preventDefault();
+  //       updateTodo(event);
+  //     }
+  //   })
+  // });
+
 
   $(".todo-list").on("click", 'li', function(event) {
     $(event.target).siblings('.delete-button').toggle();
@@ -126,6 +183,7 @@ $(() => {
   $(".todo-button").on("click", createNewTodo);
 
   $(".todo-post-box").on("keypress", function(event) {
+    console.log('run');
     if (event.which === 13) {
       createNewTodo(event);
     }

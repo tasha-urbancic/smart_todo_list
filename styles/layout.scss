@@ -34,6 +34,7 @@ main {
 .item-text {
   display: inline;
   flex-grow: 1;
+  height: 1.5em;
 }
 
 ul {
@@ -88,13 +89,13 @@ ul {
 }
 
 .todo-list-2 {
-  background-color: #EEF2FA; 
+  background-color: #EEF2FA;
 }
 
 .todo-list-2 h5 {
-  background-color: rgba(78, 96, 133, 0.67); 
+  background-color: rgba(78, 96, 133, 0.67);
 }
-  
+
 .todo-list-3 {
   background-color: #FAEEE3;
 }
