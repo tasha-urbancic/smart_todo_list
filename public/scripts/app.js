@@ -1,6 +1,5 @@
 function createCategoryCircles(catId) {
-
-  var keyNum = $("ul[data-category=" + catId + "]").data('key');
+  var keyNum = $("ul[data-category=" + catId + "]").data("key");
 
   const circle1 = $("<i>")
     .addClass("cat-color-0")
@@ -49,7 +48,7 @@ function createCategoryCircles(catId) {
     .append(circle2)
     .append(circle3)
     .append(circle4)
-    .css("display", "none");
+    .css("display", "inline-block");
 
   return categoryDiv;
 }
@@ -65,7 +64,7 @@ function createTodo(itemObj) {
   const trashDiv = $("<div>")
     .addClass("delete-button")
     .append(trash)
-    .css("display", "none");
+    .css("display", "inline-block");
   const marker = $("<i>")
     .addClass("fa fa-circle-o")
     .attr("aria-hidden", "true");
@@ -75,6 +74,12 @@ function createTodo(itemObj) {
 
   var categoryDiv = createCategoryCircles(itemObj.categoryId);
 
+  const actionDiv = $("<div>")
+    .addClass("action-button")
+    .append(trashDiv)
+    .append(categoryDiv)
+    .css("display", "none");
+
   listItem
     .append(markerDiv)
     .append(
@@ -83,8 +88,7 @@ function createTodo(itemObj) {
         .attr("contentEditable", "true")
         .text(itemObj.text)
     )
-    .append(trashDiv)
-    .append(categoryDiv);
+    .append(actionDiv);
 
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
 }
@@ -204,12 +208,17 @@ $(() => {
 
   $(".todo-list").on("click", "li", function(event) {
     $(event.target)
-      .siblings(".delete-button")
-      .show();
-    $(event.target)
-      .siblings(".category-button")
-      .show();
-    $();
+      .siblings(".action-button")
+      .show()
+      .css("display", "inline");
+    $(document).mouseup(function(e) {
+      var container = $(event.target).siblings(".action-button");
+
+      // if the target of the click isn't the container nor a descendant of the container
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.hide();
+      }
+    });
   });
 
   $(".todo-list").on("click", ".circle-button", function(event) {
