@@ -14,6 +14,14 @@
   color: $color-header-cat3;
 }
 
+.list-header {
+
+}
+
+.fa-minus {
+  height: 50px;
+}
+
 .fa-circle-o,
 .fa-trash-o,
 .fa-circle {
@@ -24,11 +32,11 @@ h5 {
   border-radius: $border-radius;
 }
 
-.item-text {
-  display: inline;
-  flex-grow: 1;
-  height: 1.5em;
-}
+// .item-text {
+//   display: inline;
+//   flex-grow: 1;
+//   height: 1.5em;
+// }
 
 .item-wrapper {
   display: flex;

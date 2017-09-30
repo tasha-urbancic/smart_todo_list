@@ -153,11 +153,16 @@ $(() => {
       method: "POST",
       url: "/user/:id/update-text/:todo_id",
       data: { data: data },
-      success: function(res) {
-        console.log(res);
-        $elem.blur();
-      }
-    }).fail(function(err) {
+    })
+    .done(function(result) {
+      $elem.parent('li').remove();
+      createTodo({
+        text: result[0].item,
+        id: result[0].id,
+        categoryId: result[0].category_id
+      });
+    })
+    .fail(function(err) {
       console.log(err);
     });
   }
@@ -270,7 +275,6 @@ $(() => {
   $(".todo-button").on("click", createNewTodo);
 
   $(".todo-post-box").on("keypress", function(event) {
-    console.log("run");
     if (event.which === 13) {
       createNewTodo(event);
     }

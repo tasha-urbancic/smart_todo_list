@@ -84,6 +84,7 @@ app.post("/user/:id/delete/:todo_id", (req, res) => {
 //update the text of the todo
 app.post("/user/:id/update-text/:todo_id", (req, res) => {
   queries.updateTodoText(req.body.data.id, req.body.data.item).then( results => {
+    res.json(results);
     res.end("success: todo item changed");
   });
 });

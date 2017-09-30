@@ -30,10 +30,14 @@ module.exports = {
   addTodo: function(text, userId) {
     return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
-        console.log("error");
+        console.log("your input string did not contain any key words. Setting default cat_id");
+
+        return knex("todos")
+          .insert(item)
+          .returning(["id", "category_id"]);
+
       } else {
         const categoryId = categoryIds[0].category_id;
-
         const item = {
           item: text,
           completed_toggle: 0,
@@ -44,7 +48,9 @@ module.exports = {
         return knex("todos")
           .insert(item)
           .returning(["id", "category_id"]);
+
       }
+
     });
   },
 
@@ -54,18 +60,25 @@ module.exports = {
       .del();
   },
 
-  // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
-
   updateTodoText: function(id, item) {
     let updateObject = {};
     updateObject.item = item;
+    console.log(item);
 
-    // updateObject.category_id = req.body.data.categoryId;
-    // later also update the category Id here
+    return getCategory(item).then(categoryIds => {
+      if (categoryIds.length === 0) {
+        console.log("your input string did not contain any key words. Setting default cat_id");
 
-    return knex("todos")
-      .where("todos.id", id)
-      .update(updateObject);
+      } else {
+        updateObject.category_id = categoryIds[0].category_id;
+
+        return knex("todos")
+        .where("todos.id", id)
+        .update(updateObject)
+        .returning(["id", "item", "category_id"]);
+      }
+
+    });
   },
   updateTodoCategory: function(id, categoryId) {
     let updateObject = {};
