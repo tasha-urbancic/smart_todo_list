@@ -3,19 +3,19 @@ function createCategoryCircles(catId) {
 
   const circle1 = $("<i>")
     .addClass("cat-color-0")
-    .data('key', 0)
+    .data("key", 0)
     .attr("aria-hidden", "true");
   const circle2 = $("<i>")
     .addClass("cat-color-1")
-    .data('key', 1)
+    .data("key", 1)
     .attr("aria-hidden", "true");
   const circle3 = $("<i>")
     .addClass("cat-color-2")
-    .data('key', 2)
+    .data("key", 2)
     .attr("aria-hidden", "true");
   const circle4 = $("<i>")
     .addClass("cat-color-3")
-    .data('key', 3)
+    .data("key", 3)
     .attr("aria-hidden", "true");
 
   if (keyNum === 0) {
@@ -129,16 +129,21 @@ $(() => {
     event.preventDefault();
     $.ajax({
       method: "POST",
-      url: "/",
+      url: "/todos",
       data: { text: text }
     })
       .done(function(result) {
+        console.log(result);
         $(".todo-post-box").val("");
         createTodo({
           text: text,
-          id: result.id[0],
-          categoryId: 1
+          id: result.id,
+          categoryId: result.category_id
         });
+
+        console.log(result.category_id);
+
+        //result[0].category_id
       })
       .fail(function(err) {
         $("ul[data-category=" + categoryId + "]")
@@ -175,7 +180,6 @@ $(() => {
   });
 
   function updateTodoCategory(newCategoryId, itemId, $elem) {
-
     let data = { id: itemId, category_id: newCategoryId };
     // later feed in categoryId into this data object
     $.ajax({
@@ -183,47 +187,45 @@ $(() => {
       url: "/:todo_id/update-category",
       data: { data: data },
       success: function() {
-        console.log('successful');
+        console.log("successful");
         $elem.remove();
         createTodo({
-          text: $elem.find('span').text(),
+          text: $elem.find("span").text(),
           id: itemId,
           categoryId: newCategoryId
         });
       }
     }).fail(function(err) {
-      console.log('unsuccessful');
+      console.log("unsuccessful");
       console.log(err);
     });
-
   }
 
   $(".todo-list").on("click", ".category-button", function(event) {
-
     event.preventDefault();
 
     const itemId = $(event.target)
-    .closest("li")
-    .data("id");
+      .closest("li")
+      .data("id");
 
     const listKey = $(event.target)
-    .closest("ul").data("key");
-    const clickedKey = $(event.target).data('key');
+      .closest("ul")
+      .data("key");
+    const clickedKey = $(event.target).data("key");
 
-    console.log('clickedKey' + clickedKey);
-    console.log('listKey' + listKey);
+    console.log("clickedKey" + clickedKey);
+    console.log("listKey" + listKey);
 
     if (clickedKey !== listKey) {
+      var newCategoryId = $(".category-button .cat-color-0.fa-circle-o")
+        .closest(".container")
+        .find("ul[data-key=" + clickedKey + "]")
+        .data("category");
 
-      var newCategoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
-
-      var $elem = $(event.target)
-      .closest("li");
+      var $elem = $(event.target).closest("li");
 
       updateTodoCategory(newCategoryId, itemId, $elem);
-
     }
-
   });
 
   $(".todo-list").on("click", "li", function(event) {

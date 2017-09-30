@@ -1,0 +1,132 @@
+diff --git a/public/scripts/app.js b/public/scripts/app.js
+index 7a38b77..0287435 100644
+--- a/public/scripts/app.js
++++ b/public/scripts/app.js
+@@ -152,7 +152,7 @@ $(() => {
+     // later feed in categoryId into this data object
+     $.ajax({
+       method: "POST",
+-      url: "/:todo_id/update",
++      url: "/:todo_id/update-text",
+       data: { data: data },
+       success: function(res) {
+         console.log(res);
+@@ -174,6 +174,30 @@ $(() => {
+     }
+   });
+ 
++  function updateTodoCategory(newCategoryId, itemId, $elem) {
++
++    let data = { id: itemId, category_id: newCategoryId };
++    // later feed in categoryId into this data object
++    $.ajax({
++      method: "POST",
++      url: "/:todo_id/update-category",
++      data: { data: data },
++      success: function() {
++        console.log('successful');
++        $elem.remove();
++        createTodo({
++          text: $elem.find('span').text(),
++          id: itemId,
++          categoryId: newCategoryId
++        });
++      }
++    }).fail(function(err) {
++      console.log('unsuccessful');
++      console.log(err);
++    });
++
++  }
++
+   $(".todo-list").on("click", ".category-button", function(event) {
+ 
+     event.preventDefault();
+@@ -182,15 +206,23 @@ $(() => {
+     .closest("li")
+     .data("id");
+ 
++    const listKey = $(event.target)
++    .closest("ul").data("key");
+     const clickedKey = $(event.target).data('key');
+ 
+-    var categoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
++    console.log('clickedKey' + clickedKey);
++    console.log('listKey' + listKey);
+ 
+-    
+-    // update category in database
+-    updateTodoCategory(newCategoryId, itemId);
++    if (clickedKey !== listKey) {
+ 
+-    // remove li element? add element under new list?
++      var newCategoryId = $('.category-button .cat-color-0.fa-circle-o').closest('.container').find('ul[data-key=' + clickedKey + ']').data('category');
++
++      var $elem = $(event.target)
++      .closest("li");
++
++      updateTodoCategory(newCategoryId, itemId, $elem);
++
++    }
+ 
+   });
+ 
+diff --git a/queries/queries.js b/queries/queries.js
+index dd89ea4..49721a8 100644
+--- a/queries/queries.js
++++ b/queries/queries.js
+@@ -38,7 +38,6 @@ module.exports = {
+         };
+         res.send(tempObject);
+       });
+-
+   },
+ 
+   removeTodo: function(knex, req, res) {
+@@ -51,9 +50,7 @@ module.exports = {
+ 
+   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
+ 
+-  updateTodo: function(knex, req, res) {
+-
+-    console.log(req.body.data.item);
++  updateTodoText: function(knex, req, res) {
+ 
+     let updateObject = {};
+     updateObject.item = req.body.data.item;
+@@ -65,5 +62,15 @@ module.exports = {
+       .where("todos.id", req.body.data.id)
+       .update(updateObject)
+       .asCallback(res);
++  },
++  updateTodoCategory: function(knex, req, res) {
++
++    let updateObject = {};
++    updateObject.category_id = req.body.data.category_id;
++
++    knex("todos")
++      .where("todos.id", req.body.data.id)
++      .update(updateObject)
++      .asCallback(res);
+   }
+ };
+diff --git a/server.js b/server.js
+index a66ebcd..1ebb01d 100644
+--- a/server.js
++++ b/server.js
+@@ -93,9 +93,12 @@ app.post("/", (req, res) => {
+   queries.addTodo(knex, req, res);
+ });
+ 
+-app.post("/:todo_id/update", (req, res) => {
+-  queries.updateTodo(knex, req, res);
+-  res.end('success: item updated');
++app.post("/:todo_id/update-text", (req, res) => {
++  queries.updateTodoText(knex, req, res);
++});
++
++app.post("/:todo_id/update-category", (req, res) => {
++  queries.updateTodoCategory(knex, req, res);
+ });
+ 
+ 

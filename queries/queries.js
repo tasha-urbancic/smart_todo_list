@@ -1,3 +1,5 @@
+const getCategory = require("./getCategory");
+
 module.exports = {
   getUser: function(knex, userName) {
     knex
@@ -22,22 +24,24 @@ module.exports = {
   },
 
   addTodo: function(knex, req, res) {
-    const item = {
-      item: req.body.text,
-      completed_toggle: 0,
-      user_id: req.session.user_id,
-      category_id: 1
-    };
+    return getCategory(knex, req.body.text).then(categoryIds => {
+      if (categoryIds.length === 0) {
+        console.log("error");
+      } else {
+        const categoryId = categoryIds[0].category_id;
 
-    knex("todos")
-      .insert(item)
-      .returning("id")
-      .then(id => {
-        let tempObject = {
-          id: id
+        const item = {
+          item: req.body.text,
+          completed_toggle: 0,
+          user_id: req.session.user_id,
+          category_id: categoryId
         };
-        res.send(tempObject);
-      });
+
+        return knex("todos")
+          .insert(item)
+          .returning(["id", "category_id"]);
+      }
+    });
   },
 
   removeTodo: function(knex, req, res) {
@@ -51,7 +55,6 @@ module.exports = {
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
 
   updateTodoText: function(knex, req, res) {
-
     let updateObject = {};
     updateObject.item = req.body.data.item;
 
@@ -64,7 +67,6 @@ module.exports = {
       .asCallback(res);
   },
   updateTodoCategory: function(knex, req, res) {
-
     let updateObject = {};
     updateObject.category_id = req.body.data.category_id;
 

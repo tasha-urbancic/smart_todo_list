@@ -2,30 +2,30 @@
 
 require("dotenv").config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
 const cookieSession = require("cookie-session");
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
-const queries = require('./queries/queries');
+const express = require("express");
+const bodyParser = require("body-parser");
+const sass = require("node-sass-middleware");
+const app = express();
+const queries = require("./queries/queries");
 
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const morgan = require("morgan");
 const knexLogger = require("knex-logger");
 
-
-
 // Seperated Routes for each Resource
 const todosRoutes = require("./routes/todos");
 
 //
-app.use(cookieSession({
-  name: "session",
-  keys: ["key1", "key2"]
-}))
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"]
+  })
+);
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -53,14 +53,13 @@ app.use(
 );
 app.use(express.static("public"));
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   const userID = req.params.id;
   res.locals = {
     user_id: userID
   };
   next();
 });
-
 
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
@@ -69,7 +68,7 @@ app.use("/todos", todosRoutes(knex));
 app.get("/user/:id/login", (req, res) => {
   let id = req.params.id;
   req.session.user_id = id;
-  res.redirect('/');
+  res.redirect("/");
 });
 
 // Home page
@@ -86,23 +85,24 @@ app.get("/", (req, res) => {
 
 app.post("/:todo_id/delete", (req, res) => {
   queries.removeTodo(knex, req, res);
-  res.end('success: item deleted');
+  res.end("success: item deleted");
 });
 
-app.post("/", (req, res) => {
-  queries.addTodo(knex, req, res);
+app.post("/todos", (req, res) => {
+  queries.addTodo(knex, req, res).then(([todoObject]) => {
+    res.send(todoObject);
+  });
 });
 
 app.post("/:todo_id/update-text", (req, res) => {
   queries.updateTodoText(knex, req, res);
-  res.end('success: todo item changed');
+  res.end("success: todo item changed");
 });
 
 app.post("/:todo_id/update-category", (req, res) => {
   queries.updateTodoCategory(knex, req, res);
-  res.end('success: category changed');
+  res.end("success: category changed");
 });
-
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
