@@ -19,7 +19,6 @@ const morgan = require("morgan");
 
 // Seperated Routes for each Resource
 const todosRoutes = require("./routes/todos");
-const loginRoutes = require("./routes/login");
 
 //
 app.use(
@@ -57,7 +56,13 @@ app.use(function(req, res, next) {
 
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
-app.use("/user/:id/login", loginRoutes(knex));
+
+//login
+app.get("/user/:id/login", (req, res) => {
+  let id = req.params.id;
+  req.session.user_id = id;
+  res.redirect("/");
+});
 
 // Home page
 app.get("/", (req, res) => {
