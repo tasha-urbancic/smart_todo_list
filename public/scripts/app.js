@@ -143,12 +143,6 @@ $(() => {
 
         console.log(result.category_id);
 
-        //result[0].category_id
-      })
-      .fail(function(err) {
-        $("ul[data-category=" + categoryId + "]")
-          .first()
-          .remove();
       });
   }
 
@@ -157,7 +151,7 @@ $(() => {
     // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
-      url: "/:todo_id/update-text",
+      url: "/user/:id/update-text/:todo_id",
       data: { data: data },
       success: function(res) {
         console.log(res);
@@ -184,7 +178,7 @@ $(() => {
     // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
-      url: "/:todo_id/update-category",
+      url: "/user/:id/update-category/:todo_id",
       data: { data: data },
       success: function() {
         console.log("successful");
@@ -257,7 +251,7 @@ $(() => {
     event.preventDefault();
     $.ajax({
       method: "POST",
-      url: "/:todo_id/delete",
+      url: "/user/:id/delete/:todo_id",
       data: { id: itemId },
       success: function(res) {
         console.log(res);
@@ -273,7 +267,6 @@ $(() => {
       });
   });
 
-
   $(".todo-button").on("click", createNewTodo);
 
   $(".todo-post-box").on("keypress", function(event) {
@@ -282,26 +275,4 @@ $(() => {
       createNewTodo(event);
     }
   });
-
-  $(".category-header").on('click', function(event) {
-       $(event.target).parent().siblings('.toggle-list').toggle('hide');
-  });
-
-  $(".login-button").click(function(e) {
-    e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: "/pages/test/",
-        data: {
-            id: $(this).val(), // < note use of 'this' here
-            access_token: $("#access_token").val()
-        },
-        success: function(result) {
-            alert('ok');
-        },
-        error: function(result) {
-            alert('error');
-        }
-    });
-});
 });

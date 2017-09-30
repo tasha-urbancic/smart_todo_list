@@ -13,11 +13,13 @@ const queries = require("./queries/queries");
 
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
-const morgan = require("morgan");
 const knexLogger = require("knex-logger");
+
+const morgan = require("morgan");
 
 // Seperated Routes for each Resource
 const todosRoutes = require("./routes/todos");
+const loginRoutes = require("./routes/login");
 
 //
 app.use(
@@ -27,9 +29,6 @@ app.use(
   })
 );
 
-// Load the logger first so all (static) HTTP requests are logged to STDOUT
-// 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
 
 // Log knex SQL queries to STDOUT as well
@@ -37,11 +36,6 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(
-//   cookieSession({
-//     keys: ["keyname1"]
-//   })
-// );
 app.use(
   "/styles",
   sass({
@@ -63,45 +57,42 @@ app.use(function(req, res, next) {
 
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
-
-//login route
-app.get("/user/:id/login", (req, res) => {
-  let id = req.params.id;
-  req.session.user_id = id;
-  res.redirect("/");
-});
+app.use("/user/:id/login", loginRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  knex
-    .select("*")
-    .from("categories")
-    .then(results => {
-      res.render("index", {
-        categories: results
-      });
+  queries.getCategories().then(results => {
+    res.render("index", {
+      categories: results
     });
-});
-
-app.post("/:todo_id/delete", (req, res) => {
-  queries.removeTodo(knex, req, res);
-  res.end("success: item deleted");
-});
-
-app.post("/todos", (req, res) => {
-  queries.addTodo(knex, req, res).then(([todoObject]) => {
-    res.send(todoObject);
   });
 });
 
-app.post("/:todo_id/update-text", (req, res) => {
-  queries.updateTodoText(knex, req, res);
-  res.end("success: todo item changed");
+//logout page
+app.get("/logout", (req, res) => {
+  // req.session.user_id = null;
+  // res.redirect("/");
 });
 
-app.post("/:todo_id/update-category", (req, res) => {
-  queries.updateTodoCategory(knex, req, res);
-  res.end("success: category changed");
+//delete todo
+app.post("/user/:id/delete/:todo_id", (req, res) => {
+  queries.removeTodo(req.body.id).then( results => {
+    res.end("success: item deleted");
+  });
+});
+
+//update the text of the todo
+app.post("/user/:id/update-text/:todo_id", (req, res) => {
+  queries.updateTodoText(req.body.data.id, req.body.data.item).then( results => {
+    res.end("success: todo item changed");
+  });
+});
+
+//update the category of the todo
+app.post("/user/:id/update-category/:todo_id", (req, res) => {
+  queries.updateTodoCategory(req.body.data.id, req.body.data.category_id).then( results => {
+    res.end("success: category changed");
+  });
 });
 
 app.listen(PORT, () => {

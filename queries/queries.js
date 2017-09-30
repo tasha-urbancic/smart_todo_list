@@ -1,39 +1,43 @@
 const getCategory = require("./getCategory");
+const knexConfig = require("../knexfile");
+const ENV = process.env.ENV || "development";
+const knex = require("knex")(knexConfig[ENV]);
+const knexLogger = require("knex-logger");
 
 module.exports = {
-  getUser: function(knex, userName) {
-    knex
+  getUser: function(userName) {
+    return knex
       .select()
       .from("users")
-      .where({ email: userName })
-      .asCallback((error, rows) => {
-        return rows;
-      });
+      .where({ email: userName });
   },
 
-  getTodoList: function(knex, req, res) {
-    knex
+  getCategories: function() {
+    return knex
+      .select("*")
+      .from("categories");
+  },
+
+  getTodoList: function(userId) {
+    return knex
       .select("*")
       .from("todos")
-      .where("user_id", req.session.user_id)
+      .where("user_id", userId)
       .orderBy("category_id", "asc")
-      .orderBy("created_at", "desc")
-      .then(results => {
-        res.json(results);
-      });
+      .orderBy("created_at", "desc");
   },
 
-  addTodo: function(knex, req, res) {
-    return getCategory(knex, req.body.text).then(categoryIds => {
+  addTodo: function(text, userId) {
+    return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
         console.log("error");
       } else {
         const categoryId = categoryIds[0].category_id;
 
         const item = {
-          item: req.body.text,
+          item: text,
           completed_toggle: 0,
-          user_id: req.session.user_id,
+          user_id: userId,
           category_id: categoryId
         };
 
@@ -44,35 +48,31 @@ module.exports = {
     });
   },
 
-  removeTodo: function(knex, req, res) {
-    console.log(req.body.id);
-    knex("todos")
-      .where("todos.id", req.body.id)
-      .del()
-      .asCallback(res);
+  removeTodo: function(id) {
+    return knex("todos")
+      .where("todos.id", id)
+      .del();
   },
 
   // If you want to pass in an update object instead, replace item & category_id.  In that case you won't need to test for undefined.
 
-  updateTodoText: function(knex, req, res) {
+  updateTodoText: function(id, item) {
     let updateObject = {};
-    updateObject.item = req.body.data.item;
+    updateObject.item = item;
 
     // updateObject.category_id = req.body.data.categoryId;
     // later also update the category Id here
 
-    knex("todos")
-      .where("todos.id", req.body.data.id)
-      .update(updateObject)
-      .asCallback(res);
+    return knex("todos")
+      .where("todos.id", id)
+      .update(updateObject);
   },
-  updateTodoCategory: function(knex, req, res) {
+  updateTodoCategory: function(id, categoryId) {
     let updateObject = {};
-    updateObject.category_id = req.body.data.category_id;
+    updateObject.category_id = categoryId;
 
-    knex("todos")
-      .where("todos.id", req.body.data.id)
-      .update(updateObject)
-      .asCallback(res);
+    return knex("todos")
+      .where("todos.id", id)
+      .update(updateObject);
   }
 };
