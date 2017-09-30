@@ -36,11 +36,11 @@
               <div class='col'>
                 <div class='<%="todo-list-" + key%> todo-list'>
                   <div class="text-center">
-                    <h5>
+                    <h5 class="category-header">
                       <%=categories[key].name%>
                     </h5>
                   </div>
-                  <ul data-category='<%=categories[key].id%>' data-key='<%=key%>'></ul>
+                  <ul data-category='<%=categories[key].id%>' data-key='<%=key%>' class="toggle-list"></ul>
                 </div>
               </div>
             </div>

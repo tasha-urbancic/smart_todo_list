@@ -273,6 +273,7 @@ $(() => {
       });
   });
 
+
   $(".todo-button").on("click", createNewTodo);
 
   $(".todo-post-box").on("keypress", function(event) {
@@ -280,5 +281,9 @@ $(() => {
     if (event.which === 13) {
       createNewTodo(event);
     }
+  });
+
+   $(".category-header").on('click', function(event) {
+       $(event.target).parent().siblings('.toggle-list').toggle('hide');
   });
 });
