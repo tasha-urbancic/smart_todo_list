@@ -81,14 +81,14 @@ app.get("/logout", (req, res) => {
 
 //delete todo
 app.post("/user/:id/delete/:todo_id", (req, res) => {
-  queries.removeTodo(req.body.id).then( results => {
+  queries.removeTodo(req.body.id).then(results => {
     res.end("success: item deleted");
   });
 });
 
 //update the text of the todo
 app.post("/user/:id/update-text/:todo_id", (req, res) => {
-  queries.updateTodoText(req.body.data.id, req.body.data.item).then( results => {
+  queries.updateTodoText(req.body.data.id, req.body.data.item).then(results => {
     res.json(results);
     res.end("success: todo item changed");
   });
@@ -96,9 +96,11 @@ app.post("/user/:id/update-text/:todo_id", (req, res) => {
 
 //update the category of the todo
 app.post("/user/:id/update-category/:todo_id", (req, res) => {
-  queries.updateTodoCategory(req.body.data.id, req.body.data.category_id).then( results => {
-    res.end("success: category changed");
-  });
+  queries
+    .updateTodoCategory(req.body.data.id, req.body.data.category_id)
+    .then(results => {
+      res.end("success: category changed");
+    });
 });
 
 app.listen(PORT, () => {

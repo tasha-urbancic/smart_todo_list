@@ -8,7 +8,7 @@ $title-font-style: "Cookie";
 $body-font-style: "Raleway";
 $color-header-cat0: #A09EB8;
 $color-background-cat0: #F1EFFB;
-$color-header-cat1: #F3E6BD;
+$color-header-cat1: #FAE29A;
 $color-background-cat1: #FAF7E1;
 $color-header-cat2: rgba(78, 96, 133, 0.67);
 $color-background-cat2: #EEF2FA;
@@ -20,6 +20,10 @@ body {
   z-index: -1;
   font-family: $body-font-style;
   font-size: $sizing-unit * 3;
+}
+
+.mx-auto {
+  width: 80%;
 }
 
 #nav-bar .header {

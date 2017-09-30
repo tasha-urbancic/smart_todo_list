@@ -280,6 +280,10 @@ $(() => {
     }
   });
 
+  $(".todo-post-box").submit(function(event){
+    createNewTodo(event);
+  });
+
   $(".header-toggle").find('i').on('click', function(event) {
     $(event.target).parent().parent().siblings('.toggle-list').toggle('hide');
   });

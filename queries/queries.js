@@ -28,13 +28,10 @@ module.exports = {
   },
 
   addTodo: function(text, userId) {
+    console.log(text);
     return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
         console.log("your input string did not contain any key words. Setting default cat_id");
-
-        return knex("todos")
-          .insert(item)
-          .returning(["id", "category_id"]);
 
       } else {
         const categoryId = categoryIds[0].category_id;
