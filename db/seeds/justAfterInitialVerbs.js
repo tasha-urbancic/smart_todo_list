@@ -1,0 +1,71 @@
+
+exports.seed = function(knex, Promise) {
+  return knex('keywords')
+    .del()
+    .then(function () {
+      return knex('keywords').insert([
+        {category_id: 1, keyword: 'watch'},
+        {category_id: 1, keyword: 'follow'},
+        {category_id: 1, keyword: 'see'},
+        {category_id: 1, keyword: 'attend'},
+        {category_id: 1, keyword: 'catch'},
+        {category_id: 1, keyword: 'check out'},
+        {category_id: 1, keyword: 'view'},
+        {category_id: 1, keyword: 'take in'},
+        {category_id: 2, keyword: 'read'},
+        {category_id: 2, keyword: 'interpret'},
+        {category_id: 2, keyword: 'scan'},
+        {category_id: 2, keyword: 'study'},
+        {category_id: 2, keyword: 'translate'},
+        {category_id: 2, keyword: 'decipher'},
+        {category_id: 2, keyword: 'skim'},
+        {category_id: 2, keyword: 'flip through'},
+        {category_id: 2, keyword: 'go over'},
+        {category_id: 2, keyword: 'go through'},
+        {category_id: 2, keyword: 'leaf through'},
+        {category_id: 2, keyword: 'pore over'},
+        {category_id: 2, keyword: 'peruse'},
+        {category_id: 3, keyword: 'eat'},
+        {category_id: 3, keyword: 'dine'},
+        {category_id: 3, keyword: 'feed'},
+        {category_id: 3, keyword: 'feast'},
+        {category_id: 3, keyword: 'nibble'},
+        {category_id: 3, keyword: 'banquet'},
+        {category_id: 3, keyword: 'breakfast'},
+        {category_id: 3, keyword: 'gorge'},
+        {category_id: 3, keyword: 'gormandize'},
+        {category_id: 3, keyword: 'graze'},
+        {category_id: 3, keyword: 'lunch'},
+        {category_id: 3, keyword: 'munch'},
+        {category_id: 3, keyword: 'masticate'},
+        {category_id: 3, keyword: 'nosh'},
+        {category_id: 3, keyword: 'ruminate'},
+        {category_id: 3, keyword: 'snack'},
+        {category_id: 3, keyword: 'sup'},
+        {category_id: 3, keyword: 'break bread'},
+        {category_id: 3, keyword: 'chow down'},
+        {category_id: 3, keyword: 'gobble'},
+        {category_id: 3, keyword: 'have a bite'},
+        {category_id: 3, keyword: 'have a meal'},
+        {category_id: 3, keyword: 'take nourishment'},
+        {category_id: 3, keyword: 'take out'},
+        {category_id: 4, keyword: 'buy'},
+        {category_id: 4, keyword: 'obtain'},
+        {category_id: 4, keyword: 'purchase'},
+        {category_id: 4, keyword: 'acquire'},
+        {category_id: 4, keyword: 'gather'},
+        {category_id: 4, keyword: 'get'},
+        {category_id: 4, keyword: 'procure'},
+        {category_id: 4, keyword: 'score'},
+        {category_id: 4, keyword: 'secure'},
+        {category_id: 4, keyword: 'bargain for'},
+        {category_id: 4, keyword: 'barter for'},
+        {category_id: 4, keyword: 'contract'},
+        {category_id: 4, keyword: 'shop for'},
+        {category_id: 4, keyword: 'pay for'}
+
+      ]);
+    });
+};
+
+
