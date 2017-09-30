@@ -1,0 +1,114 @@
+.category-button .cat-color-0.alternate-category.fa-circle-o {
+  color: $color-header-cat0;
+}
+
+.category-button .cat-color-1.alternate-category.fa-circle-o {
+  color: $color-header-cat1;
+}
+
+.category-button .cat-color-2.alternate-category.fa-circle-o {
+  color: $color-header-cat2;
+}
+
+.category-button .cat-color-3.alternate-category.fa-circle-o {
+  color: $color-header-cat3;
+}
+
+.fa-circle-o,
+.fa-trash-o,
+.fa-circle {
+  padding: 0 0.5em 0;
+}
+
+h5 {
+  border-radius: $border-radius;
+}
+
+.item-text {
+  display: inline;
+  flex-grow: 1;
+  height: 1.5em;
+}
+
+.item-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.new-todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1em 2em 1em;
+}
+
+.todo-button {
+  border-radius: $border-radius;
+  margin-left: 1em;
+}
+
+.todo-list {
+  background-color: white;
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+}
+
+
+.todo-list-0 {
+  background-color: $color-background-cat0;
+}
+
+.todo-list-0 h5 {
+  background-color: $color-header-cat0;
+}
+
+.todo-list-0 .category-button .cat-color-0.current-category.fa-circle {
+  color: $color-header-cat0;
+}
+
+.todo-list-1 {
+  background-color: $color-background-cat1;
+}
+
+.todo-list-1 h5 {
+  background-color: $color-header-cat1;
+}
+
+.todo-list-1 .category-button .cat-color-1.current-category.fa-circle  {
+  color: $color-header-cat1;
+}
+
+.todo-list-2 {
+  background-color: $color-background-cat2;
+}
+
+.todo-list-2 h5 {
+  background-color: $color-header-cat2;
+}
+
+.todo-list-2 .category-button .cat-color-2.current-category.fa-circle  {
+  color: $color-header-cat2;
+}
+
+.todo-list-3 {
+  background-color: $color-background-cat3;
+}
+
+.todo-list-3 h5 {
+  background-color: $color-header-cat3;
+}
+
+.todo-list-3 .category-button .cat-color-3.current-category.fa-circle {
+  color: $color-header-cat3;
+}
+
+.todo-post-box {
+  width: 375px;
+  height: 2.5em;
+  padding: 0.5em;
+  border-radius: $border-radius;
+}
+
+ul {
+  padding: .5em 0 .5em;
+}

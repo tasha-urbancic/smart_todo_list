@@ -1,0 +1,24 @@
+@media only screen and (max-device-width: 976px) {
+  body, main {
+    font-size: $sizing-unit * 6;
+  }
+
+  h5 {
+    font-size: $sizing-unit * 8;
+  }
+
+  #nav-bar .header {
+    font-size: $sizing-unit * 20;
+  }
+
+  .todo-button {
+    padding: 20px 30px 20px;
+    font-size: $sizing-unit * 8;
+  }
+
+  .todo-post-box {
+    width: 60%;
+    height: 3em;
+  }
+
+}

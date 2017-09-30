@@ -1,184 +1,35 @@
-
-
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 $sizing-unit: 7px;
-$tweeter-color: #BBC;
-$tweeter-color-lighter: rgba(255, 255, 255, 0.86);
-$header-color: white;
-$tweet-background: lighten($tweeter-color, 15);
-$border-radius: 5px;
+$border-radius: 7px;
+$border-color: lighten(black, 75);
+$background-color: lighten(black, 90);
+$title-font-style: "Cookie";
+$body-font-style: "Raleway";
+$color-header-cat0: #A09EB8;
+$color-background-cat0: #F1EFFB;
+$color-header-cat1: #F3E6BD;
+$color-background-cat1: #FAF7E1;
+$color-header-cat2: rgba(78, 96, 133, 0.67);
+$color-background-cat2: #EEF2FA;
+$color-header-cat3: #DFC29E;
+$color-background-cat3: #FAEEE3;
 
 body {
-  background-color: lighten(black, 90);
+  background-color: $background-color;
   z-index: -1;
-  font-family: "Raleway";
-}
-
-main {
-  font-size: 16px;
-}
-
-.new-todo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1em 2em 1em;
-}
-
-.todo-button {
-  border-radius: 7px;
-  margin-left: 1em;
-}
-
-.todo-post-box {
-  width: 350px;
-  height: 2.5em;
-  padding: 0.5em;
-  border-radius: 7px;
-}
-
-.category-header {
-  margin-bottom:0px;
-}
-
-.item-text {
-  display: inline;
-  flex-grow: 1;
-  height: 1.5em;
-}
-
-ul {
-  padding: .5em 0 .5em 0;
-  margin: 0;
-}
-
-.fa-circle-o,
-.fa-trash-o,
-.fa-circle {
-  padding: 0 0.5em 0;
-}
-
-.item-wrapper {
-  display: flex;
-  align-items: center;
-  list-style-type: none;
-}
-
-.text-center {
-  position: relative;
-}
-
-.fa-minus {
-  position: absolute;
-  right: 5;
+  font-family: $body-font-style;
+  font-size: $sizing-unit * 3;
 }
 
 #nav-bar .header {
-  font-family: "Cookie";
-  color: black;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
-  font-size: 60px;
-  margin: 0;
+  font-family: $title-font-style;
+  font-size: $sizing-unit * 12;
 }
 
-.todo-list {
-  background-color: white;
-  padding: 2px 5px;
-  border-radius: 7px;
-  border: 1px solid lighten(black, 90);
-}
+// Todo list Styling
+@import "todo";
 
-.todo-list {
-  padding: 0;
-}
+// Todo list Styling
+@import "responsive_design";
 
-.todo-list-0 {
-  background-color: #F1EFFB;
-}
-
-.todo-list-0 h5 {
-  background-color: #A09EB8;
-}
-
-
-i.fa.fa-circle.cat-color-0.current-category {
-  color: #A09EB8;
-}
-
-.category-button .cat-color-0.alternate-category.fa-circle-o {
-  color: #A09EB8;
-}
-
-.todo-list-1 {
-  background-color: #FAF7E1;
-}
-
-.todo-list-1 h5 {
-  background-color: #F3E6BD;
-}
-
-.todo-list-1 .category-button .cat-color-1.current-category.fa-circle  {
-  color: #F3E6BD;
-}
-
-.category-button .cat-color-1.alternate-category.fa-circle-o {
-  color: #F3E6BD;
-}
-
-.todo-list-2 {
-  background-color: #EEF2FA;
-}
-
-.todo-list-2 h5 {
-  background-color: rgba(78, 96, 133, 0.67);
-}
-
-.todo-list-2 .category-button .cat-color-2.current-category.fa-circle  {
-  color: rgba(78, 96, 133, 0.67);
-}
-
-.category-button .cat-color-2.alternate-category.fa-circle-o {
-  color: rgba(78, 96, 133, 0.67);
-}
-
-.todo-list-3 {
-  background-color: #FAEEE3;
-}
-
-.todo-list-3 h5 {
-  background-color: #DFC29E;
-}
-
-.todo-list-3 .category-button .cat-color-3.current-category.fa-circle {
-  color: #DFC29E;
-}
-
-.category-button .cat-color-3.alternate-category.fa-circle-o {
-  color: #DFC29E;
-}
-
-@media only screen and (max-device-width: 976px) {
-  body, main {
-    font-size: $sizing-unit * 6;
-  }
-
-  .todo-post-box {
-    width: 65%;
-    height: 3em;
-  }
-
-  h5 {
-    font-size: $sizing-unit * 8;
-  }
-
-  #nav-bar .header {
-    font-size: $sizing-unit * 20;
-  }
-
-  .todo-button {
-    padding: 30px 30px 30px;
-    font-size: $sizing-unit * 8;
-  }
-
-}
