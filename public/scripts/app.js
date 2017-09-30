@@ -245,8 +245,8 @@ $(() => {
   $(".todo-list").on("click", ".circle-button", function(event) {
     let $this = $(event.target)
       .parent()
-      .parert(); //('.category-button');//.toggle();
-    console.log($this); //const itemId = $(event.target).closest('li').data('id');
+      .parert();
+    console.log($this);
   });
 
   $(".todo-list").on("click", ".fa-trash-o", function(event) {
