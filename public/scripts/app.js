@@ -280,8 +280,8 @@ $(() => {
     }
   });
 
-  $(".header-toggle").on('click', function(event) {
-        $(event.target).parent().siblings('.toggle-list').toggle('hide');
+  $(".header-toggle").find('i').on('click', function(event) {
+    $(event.target).parent().parent().siblings('.toggle-list').toggle('hide');
   });
 
 });
