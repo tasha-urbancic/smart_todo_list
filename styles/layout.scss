@@ -2,6 +2,13 @@
 
 @import '../node_modules/bootstrap/scss/bootstrap';
 
+$sizing-unit: 7px;
+$tweeter-color: #BBC;
+$tweeter-color-lighter: rgba(255, 255, 255, 0.86);
+$header-color: white;
+$tweet-background: lighten($tweeter-color, 15);
+$border-radius: 5px;
+
 body {
   background-color: lighten(black, 90);
   z-index: -1;
@@ -135,4 +142,29 @@ i.fa.fa-circle.cat-color-0.current-category {
 
 .category-button .cat-color-3.alternate-category.fa-circle-o {
   color: #DFC29E;
+}
+
+@media only screen and (max-device-width: 976px) {
+  body, main {
+    font-size: $sizing-unit * 6;
+  }
+
+  .todo-post-box {
+    width: 65%;
+    height: 3em;
+  }
+
+  h5 {
+    font-size: $sizing-unit * 8;
+  }
+
+  #nav-bar .header {
+    font-size: $sizing-unit * 20;
+  }
+
+  .todo-button {
+    padding: 30px 30px 30px;
+    font-size: $sizing-unit * 8;
+  }
+
 }
