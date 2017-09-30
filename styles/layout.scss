@@ -49,7 +49,8 @@ main {
 }
 
 ul {
-  padding: 1em 0 0 0;
+  padding: .5em 0 .5em 0;
+  margin: 0;
 }
 
 .fa-circle-o,
@@ -62,6 +63,15 @@ ul {
   display: flex;
   align-items: center;
   list-style-type: none;
+}
+
+.text-center {
+  position: relative;
+}
+
+.fa-minus {
+  position: absolute;
+  right: 5;
 }
 
 #nav-bar .header {
