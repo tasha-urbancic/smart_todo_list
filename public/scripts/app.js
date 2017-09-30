@@ -279,4 +279,9 @@ $(() => {
       createNewTodo(event);
     }
   });
+
+  $(".header-toggle").on('click', function(event) {
+        $(event.target).parent().siblings('.toggle-list').toggle('hide');
+  });
+
 });
