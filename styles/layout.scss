@@ -38,6 +38,10 @@ main {
   border-radius: 7px;
 }
 
+.category-header {
+  margin-bottom:0px;
+}
+
 .item-text {
   display: inline;
   flex-grow: 1;
@@ -45,7 +49,7 @@ main {
 }
 
 ul {
-  padding: 0;
+  padding: 1em 0 0 0;
 }
 
 .fa-circle-o,
