@@ -64,6 +64,10 @@ app.get("/user/:id/login", (req, res) => {
   res.redirect("/");
 });
 
+app.get('/test', (req, res) => {
+  res.render('test');
+});
+
 // Home page
 app.get("/", (req, res) => {
   queries.getCategories().then(results => {
