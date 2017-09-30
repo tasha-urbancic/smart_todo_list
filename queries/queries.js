@@ -13,9 +13,7 @@ module.exports = {
   },
 
   getCategories: function() {
-    return knex
-      .select("*")
-      .from("categories");
+    return knex.select("*").from("categories");
   },
 
   getTodoList: function(userId) {
@@ -31,8 +29,9 @@ module.exports = {
     console.log(text);
     return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
-        console.log("your input string did not contain any key words. Setting default cat_id");
-
+        console.log(
+          "your input string did not contain any key words. Setting default cat_id"
+        );
       } else {
         const categoryId = categoryIds[0].category_id;
         const item = {
@@ -45,9 +44,7 @@ module.exports = {
         return knex("todos")
           .insert(item)
           .returning(["id", "category_id"]);
-
       }
-
     });
   },
 
@@ -64,17 +61,17 @@ module.exports = {
 
     return getCategory(item).then(categoryIds => {
       if (categoryIds.length === 0) {
-        console.log("your input string did not contain any key words. Setting default cat_id");
-
+        console.log(
+          "your input string did not contain any key words. Setting default cat_id"
+        );
       } else {
         updateObject.category_id = categoryIds[0].category_id;
 
         return knex("todos")
-        .where("todos.id", id)
-        .update(updateObject)
-        .returning(["id", "item", "category_id"]);
+          .where("todos.id", id)
+          .update(updateObject)
+          .returning(["id", "item", "category_id"]);
       }
-
     });
   },
   updateTodoCategory: function(id, categoryId) {

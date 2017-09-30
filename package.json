@@ -23,6 +23,7 @@
     "mixins": "0.0.1",
     "morgan": "^1.7.0",
     "node-sass-middleware": "^0.11.0",
+    "node-wolfram-api": "^1.0.0",
     "pg": "^7.3.0"
   },
   "devDependencies": {

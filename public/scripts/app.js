@@ -131,19 +131,17 @@ $(() => {
       method: "POST",
       url: "/todos",
       data: { text: text }
-    })
-      .done(function(result) {
-        console.log(result);
-        $(".todo-post-box").val("");
-        createTodo({
-          text: text,
-          id: result.id,
-          categoryId: result.category_id
-        });
-
-        console.log(result.category_id);
-
+    }).done(function(result) {
+      console.log(result);
+      $(".todo-post-box").val("");
+      createTodo({
+        text: text,
+        id: result.id,
+        categoryId: result.category_id
       });
+
+      console.log(result.category_id);
+    });
   }
 
   function updateTodo(text, itemId, $elem) {
@@ -152,19 +150,19 @@ $(() => {
     $.ajax({
       method: "POST",
       url: "/user/:id/update-text/:todo_id",
-      data: { data: data },
+      data: { data: data }
     })
-    .done(function(result) {
-      $elem.parent('li').remove();
-      createTodo({
-        text: result[0].item,
-        id: result[0].id,
-        categoryId: result[0].category_id
+      .done(function(result) {
+        $elem.parent("li").remove();
+        createTodo({
+          text: result[0].item,
+          id: result[0].id,
+          categoryId: result[0].category_id
+        });
+      })
+      .fail(function(err) {
+        console.log(err);
       });
-    })
-    .fail(function(err) {
-      console.log(err);
-    });
   }
 
   $("body").on("keypress", "[contenteditable]", function(event) {
@@ -280,12 +278,17 @@ $(() => {
     }
   });
 
-  $(".todo-post-box").submit(function(event){
+  $(".todo-post-box").submit(function(event) {
     createNewTodo(event);
   });
 
-  $(".header-toggle").find('i').on('click', function(event) {
-    $(event.target).parent().parent().siblings('.toggle-list').toggle('hide');
-  });
-
+  $(".header-toggle")
+    .find("i")
+    .on("click", function(event) {
+      $(event.target)
+        .parent()
+        .parent()
+        .siblings(".toggle-list")
+        .toggle("hide");
+    });
 });
