@@ -19,31 +19,31 @@ function createCategoryCircles(catId) {
     .attr("aria-hidden", "true");
 
   if (keyNum === 0) {
-    circle1.addClass("fa fa-circle").addClass("current-category");
-    circle2.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle3.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle4.addClass("fa fa-circle-o").addClass("alternate-category");
+    circle1.addClass("fa fa-circle fa-lg").addClass("current-category");
+    circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 1) {
-    circle1.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle2.addClass("fa fa-circle").addClass("current-category");
-    circle3.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle4.addClass("fa fa-circle-o").addClass("alternate-category");
+    circle1.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle2.addClass("fa fa-circle fa-lg").addClass("current-category");
+    circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 2) {
-    circle1.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle2.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle3.addClass("fa fa-circle").addClass("current-category");
-    circle4.addClass("fa fa-circle-o").addClass("alternate-category");
+    circle1.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle3.addClass("fa fa-circle fa-lg").addClass("current-category");
+    circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 3) {
-    circle1.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle2.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle3.addClass("fa fa-circle-o").addClass("alternate-category");
-    circle4.addClass("fa fa-circle").addClass("current-category");
+    circle1.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle4.addClass("fa fa-circlefa-lg").addClass("current-category");
   }
 
   const categoryDiv = $("<div>")
@@ -63,14 +63,14 @@ function createTodo(itemObj) {
     .data("id", itemObj.id);
 
   const trash = $("<i>")
-    .addClass("fa fa-trash-o")
+    .addClass("fa fa-trash-o fa-lg")
     .attr("aria-hidden", "true");
   const trashDiv = $("<div>")
     .addClass("delete-button")
     .append(trash)
     .css("display", "inline-block");
   const marker = $("<i>")
-    .addClass("fa fa-circle-o")
+    .addClass("fa fa-circle-thin ")
     .attr("aria-hidden", "true");
   const markerDiv = $("<div>")
     .addClass("marker-button")
@@ -176,7 +176,9 @@ $(() => {
   });
 
   function updateTodoCategory(newCategoryId, itemId, $elem) {
+    console.log(newCategoryId, itemId, $elem);
     let data = { id: itemId, category_id: newCategoryId };
+    // console.log(data);
     // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
@@ -204,6 +206,8 @@ $(() => {
       .closest("li")
       .data("id");
 
+    console.log(itemId);
+
     const listKey = $(event.target)
       .closest("ul")
       .data("key");
@@ -214,7 +218,7 @@ $(() => {
 
     if (clickedKey !== listKey) {
       var newCategoryId = $(".category-button .cat-color-0.fa-circle-o")
-        .closest(".container")
+        .closest(".mx-auto")
         .find("ul[data-key=" + clickedKey + "]")
         .data("category");
 
@@ -237,13 +241,6 @@ $(() => {
         container.hide();
       }
     });
-  });
-
-  $(".todo-list").on("click", ".circle-button", function(event) {
-    let $this = $(event.target)
-      .parent()
-      .parert();
-    console.log($this);
   });
 
   $(".todo-list").on("click", ".fa-trash-o", function(event) {

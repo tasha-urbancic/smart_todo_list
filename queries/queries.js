@@ -25,7 +25,7 @@ function addUser(email, password) {
 }
 
 function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function(txt) {
+  return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
@@ -49,18 +49,18 @@ function getCategoryByKeyword(domain) {
 }
 
 module.exports = {
-  getUser: function(userName) {
+  getUser: function (userName) {
     return knex
       .select()
       .from("users")
       .where({ email: userName });
   },
 
-  getCategories: function() {
+  getCategories: function () {
     return knex.select("*").from("categories");
   },
 
-  getTodoList: function(userId) {
+  getTodoList: function (userId) {
     return knex
       .select("*")
       .from("todos")
@@ -69,7 +69,7 @@ module.exports = {
       .orderBy("created_at", "desc");
   },
 
-  addTodo: function(text, userId) {
+  addTodo: function (text, userId) {
     console.log(text);
     return getCategory(text).then(categoryIds => {
       if (categoryIds.length !== 0) {
@@ -127,13 +127,13 @@ module.exports = {
     });
   },
 
-  removeTodo: function(id) {
+  removeTodo: function (id) {
     return knex("todos")
       .where("todos.id", id)
       .del();
   },
 
-  updateTodoText: function(id, text) {
+  updateTodoText: function (id, text) {
     let updateObject = {};
     updateObject.item = text;
     console.log(text);
@@ -155,6 +155,7 @@ module.exports = {
             updateObject.category_id = result[0].category_id;
             console.log('starting knex update');
 
+
             return knex("todos")
               .where("todos.id", id)
               .update(updateObject)
@@ -165,6 +166,7 @@ module.exports = {
       } else {
         updateObject.category_id = categoryIds[0].category_id;
 
+        console.log('updating object 2');
         return knex("todos")
           .where("todos.id", id)
           .update(updateObject)
@@ -172,10 +174,13 @@ module.exports = {
       }
     });
   },
-  updateTodoCategory: function(id, categoryId) {
+  updateTodoCategory: function (id, categoryId) {
     let updateObject = {};
     updateObject.category_id = categoryId;
 
+    // console.log('updating category');
+    // console.log(id);
+    // console.log(updateObject);
     return knex("todos")
       .where("todos.id", id)
       .update(updateObject);

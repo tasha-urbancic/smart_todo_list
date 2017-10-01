@@ -1,6 +1,6 @@
 @media only screen and (max-device-width: 976px) {
   body, main {
-    font-size: $sizing-unit * 6;
+    font-size: $sizing-unit * 7;
   }
 
   .mx-auto {
@@ -8,18 +8,18 @@
   }
 
   .fa-circle-o,
+  .fa-circle-thin,
   .fa-trash-o,
   .fa-circle {
-    font-size: $sizing-unit * 6;
     padding: 0 0.1em 0 0.1em;
   }
 
   h5 {
-    font-size: $sizing-unit * 8;
+    font-size: $sizing-unit * 12;
   }
 
   #nav-bar .header {
-    font-size: $sizing-unit * 20;
+    font-size: $sizing-unit * 22;
   }
 
   .todo-button {

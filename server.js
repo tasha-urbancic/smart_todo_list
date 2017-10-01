@@ -199,9 +199,11 @@ app.post("/user/:id/update-text/:todo_id", (req, res) => {
 
 //update the category of the todo
 app.post("/user/:id/update-category/:todo_id", (req, res) => {
+  // console.log(req.body.data.category_id);
   queries
     .updateTodoCategory(req.body.data.id, req.body.data.category_id)
     .then(results => {
+      console.log(results);
       res.end("success: category changed");
     });
 });
