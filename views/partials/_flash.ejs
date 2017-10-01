@@ -1,0 +1,5 @@
+<% if (errors.length) { %>
+  <% errors.forEach((error) => { %>
+    <p class="flash error">Error: <%= error %></p>
+  <% }) %>
+<% } %>

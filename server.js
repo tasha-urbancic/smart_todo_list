@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const sass = require("node-sass-middleware");
 const app = express();
 const queries = require("./queries/queries");
+const flash = require('connect-flash');
 
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
@@ -45,6 +46,7 @@ app.use(
   })
 );
 app.use(express.static("public"));
+app.use(flash());
 
 app.use(function(req, res, next) {
   const userID = req.params.id;
@@ -72,6 +74,7 @@ app.get("/test", (req, res) => {
 app.get("/", (req, res) => {
   queries.getCategories().then(results => {
     res.render("index", {
+      errors: req.flash('errors'),
       categories: results
     });
   });

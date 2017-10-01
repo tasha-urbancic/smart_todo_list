@@ -78,24 +78,33 @@ module.exports = {
           const domain = JSON.parse(body).query[0].domain;
           console.log(domain);
 
-          return getCategoryByKeyword(domain).then((result) => {
+          if (domain) {
+            return getCategoryByKeyword(domain).then((result) => {
 
-            const categoryId = result[0].category_id;
+              const categoryId = result[0].category_id;
 
-            const item = {
-              item: text,
-              completed_toggle: 0,
-              user_id: userId,
-              category_id: categoryId
-            };
+              const item = {
+                item: text,
+                completed_toggle: 0,
+                user_id: userId,
+                category_id: categoryId
+              };
 
-            console.log('starting knex insertion');
-            return knex("todos")
-              .insert(item)
-              .returning(["id", "category_id"]);
+              console.log('starting knex insertion');
 
-          });
-        });
+              if (categoryId) {
+                return Promise.resolve(knex("todos")
+                  .insert(item)
+                  .returning(["id", "category_id"]));
+              } else {
+                return Promise.reject();
+              }
+
+            }).catch((error) => Promise.reject(error));
+          } else {
+            return Promise.reject();
+          }  
+        }).catch((error) => Promise.reject(error));
       }
     });
   },
@@ -106,16 +115,35 @@ module.exports = {
       .del();
   },
 
-  updateTodoText: function(id, item) {
+  updateTodoText: function(id, text) {
     let updateObject = {};
-    updateObject.item = item;
-    console.log(item);
+    updateObject.item = text;
+    console.log(text);
 
-    return getCategory(item).then(categoryIds => {
+    return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
         console.log(
-          "your input string did not contain any key words. Setting default cat_id"
+          "your input string did not contain any key verbs. Testing wolfram API"
         );
+
+        const httpReqString = getWolframHttp(text);
+        
+        return rp(httpReqString).then((body) => {
+          const domain = JSON.parse(body).query[0].domain;
+          console.log(domain);
+
+          return getCategoryByKeyword(domain).then((result) => {
+
+            updateObject.category_id = result[0].category_id;
+            console.log('starting knex update');
+          
+            return knex("todos")
+              .where("todos.id", id)
+              .update(updateObject)
+              .returning(["id", "item", "category_id"]);
+          });
+        });
+        
       } else {
         updateObject.category_id = categoryIds[0].category_id;
 

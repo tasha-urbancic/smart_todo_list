@@ -89,6 +89,7 @@ function createTodo(itemObj) {
     .append(
       $("<span>")
         .addClass("item-text")
+        .addClass('auto-wrap')
         .attr("contentEditable", "true")
         .text(itemObj.text)
     )
