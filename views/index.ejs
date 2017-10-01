@@ -19,9 +19,15 @@
 <body>
   <!-- Top nav bar (fixed) -->
   <nav id="nav-bar">
-    <!-- Button trigger modal -->
 
-    <a href="/register">Register</a> | <a href="/login">Login</a>
+     <% if (user){ %>
+          <form method="POST" action="/logout" style="display:inline">
+            <INPUT TYPE="SUBMIT" NAME="button"  Value="Logout"/>
+          </form>
+    <% } else { %>
+      <a href="/register">Register</a> | <a href="/login">Login</a>
+    <% } %>
+
     <span class="text-center">
         <p class='header'>Smart To-Do List</p>
     </span>

@@ -50,9 +50,9 @@ app.use(express.static("public"));
 app.use(flash());
 
 app.use(function(req, res, next) {
-  const userID = req.params.id;
+  const userID = req.session["user_id"];
   res.locals = {
-    user_id: userID
+    user: userID
   };
   next();
 });
@@ -81,11 +81,8 @@ app.post("/register", (req, res) => {
   if (!emailValue || !req.body.password) {
     res.sendStatus(400);
     return;
-  } else if ( 1 === 0) { //queries.isEmailUnique(emailValue).length > 0
-    // queries.isEmailUnique(password_hash).then(results => {
-    //     console.log(results);
-    // });
-    //res.sendStatus(400);
+  } else if ( queries.checkUserEmailExists(emailValue)length > 0) {
+    alert('An account with this email already exists');
     return;
   }
 
@@ -97,28 +94,27 @@ app.post("/register", (req, res) => {
     res.redirect("/");
     return;
   });
-
 });
 
 
 app.get("/login", (req, res) => {
-  //query.login needed here
-  //res.redirect("/");  needed after query.
   res.render("login");
 });
 
 
 app.post("/login", (req, res) => {
-  for (let id in users) {
-    if (users[id].email === req.body.email) {  //verifyEmail()
-      if (bcrypt.compareSync(req.body.password, users[id].password)) {
-        req.session.user_id = users[id]["id"];
+  queries.checkUserEmailExists(req.body.email).then(results => {
+    if (results.length === 0 ) {
+      alert('Email or password either does not exist');
+    } else if (bcrypt.compareSync(req.body.password, results[0].password_hash)) {
+        req.session.user_id = results[0].id;
         res.redirect("/")
         return;
-      }
+    } else {
+      alert('Email or password does not exist');
+      return;
     }
-  }
-  res.sendStatus(400);
+  })
 });
 
 
@@ -128,45 +124,9 @@ app.post("/logout", (req, res) => {
 });
 
 
-// function isEmailUnique(emailValue) {
-//   for (var keys in users) {
-//     if( users[keys].email === emailValue ) {
-//       return true;
-//     }
-//   }
-// }
-
-function isEmailStored(emailValue) {
-  for (var keys in users) {
-    if (users[keys]["email"] === emailValue ) {
-      return true;
-
-    }
-  }
-}
-
-function isPasswordStored(passwordValue) {
-  for (var keys in users) {
-    if (users[keys]["password"] === passwordValue ) {
-      return true;
-    }
-  }
-}
-
-
-
-
-
-
-
-
 ////////////////////////////////
 ////////////////////////////////
 
-
-app.get("/test", (req, res) => {
-  res.render("test");
-});
 
 // Home page
 app.get("/", (req, res) => {
