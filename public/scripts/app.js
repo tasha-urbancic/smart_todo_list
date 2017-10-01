@@ -121,8 +121,6 @@ $(() => {
 
   loadTodos();
 
-  // <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-
   function createNewTodo(event) {
     var text = $(".todo-post-box").val();
 

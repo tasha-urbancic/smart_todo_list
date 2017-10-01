@@ -4,6 +4,7 @@ const ENV = process.env.ENV || "development";
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require("knex-logger");
 var request = require("request");
+var rp = require('request-promise');
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -73,33 +74,25 @@ module.exports = {
 
         const httpReqString = getWolframHttp(text);
 
-        request(httpReqString, function(error, response, body) {
+        return rp(httpReqString).then((body) => {
           const domain = JSON.parse(body).query[0].domain;
           console.log(domain);
 
-          getCategoryByKeyword(domain).then((result) => {
+          return getCategoryByKeyword(domain).then((result) => {
 
             const categoryId = result[0].category_id;
 
-            if (categoryId) {
-              console.log(categoryId);
-              const item = {
-                item: text,
-                completed_toggle: 0,
-                user_id: userId,
-                category_id: categoryId
-              };
+            const item = {
+              item: text,
+              completed_toggle: 0,
+              user_id: userId,
+              category_id: categoryId
+            };
 
-              console.log(item);
-
-              console.log('starting knex insertion');
-              return knex("todos")
-                .insert(item)
-                .returning(["id", "category_id"]);
-
-            } else {
-              console.log("not able to be sorted");
-            }
+            console.log('starting knex insertion');
+            return knex("todos")
+              .insert(item)
+              .returning(["id", "category_id"]);
 
           });
         });
