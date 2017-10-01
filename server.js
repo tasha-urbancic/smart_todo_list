@@ -91,9 +91,11 @@ app.post("/register", (req, res) => {
 
   const password_hash = bcrypt.hashSync(req.body.password, 10);
   queries.addUser(emailValue, password_hash).then(results => {
-    console.log(results);
-    //req.session.user_id =
-    res.redirect("/todos");
+    let id = results[0].id;
+    console.log(id);
+    req.session.user_id = id;
+    res.redirect("/");
+    return;
   });
 
 });
@@ -111,7 +113,7 @@ app.post("/login", (req, res) => {
     if (users[id].email === req.body.email) {  //verifyEmail()
       if (bcrypt.compareSync(req.body.password, users[id].password)) {
         req.session.user_id = users[id]["id"];
-        res.redirect("/todos")
+        res.redirect("/")
         return;
       }
     }
