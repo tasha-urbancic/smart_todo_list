@@ -3,6 +3,13 @@ const knexConfig = require("../knexfile");
 const ENV = process.env.ENV || "development";
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require("knex-logger");
+var request = require("request");
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
 
 module.exports = {
   getUser: function(userName) {
@@ -10,6 +17,10 @@ module.exports = {
       .select()
       .from("users")
       .where({ email: userName });
+  },
+
+  getCategoryByKeyword: function(domain) {
+    return knex.select("category_id").from("keywords").where(keyword, domain);
   },
 
   getCategories: function() {
@@ -30,8 +41,23 @@ module.exports = {
     return getCategory(text).then(categoryIds => {
       if (categoryIds.length === 0) {
         console.log(
-          "your input string did not contain any key words. Setting default cat_id"
+          "your input string did not contain any key verbs. Testing wolfram API"
         );
+
+        const wolframStyleStr = toTitleCase(text).replace(/\s/g, "");
+
+        const httpReqString = "http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=" +
+        wolframStyleStr +
+        "&output=json";
+
+        const wolframOutput = request(httpReqString, function(error, response, body) {
+          const domain = JSON.parse(body).query[0].domain;
+          console.log(domain);
+          return domain;
+        });
+        
+        console.log(wolframOutput);
+
       } else {
         const categoryId = categoryIds[0].category_id;
         const item = {
