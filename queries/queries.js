@@ -5,6 +5,14 @@ const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require("knex-logger");
 var request = require("request");
 
+function isEmailUnique(emailValue) {
+  return knex
+    .select('password')
+    .from('users')
+    .where('password', password_hash)
+    .returning(['password_hash'])
+}
+
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
