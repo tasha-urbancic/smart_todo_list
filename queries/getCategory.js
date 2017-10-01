@@ -5,7 +5,6 @@ const knexLogger = require("knex-logger");
 
 module.exports = function getCategory(todoItem) {
   const textLowerCase = todoItem.toLowerCase();
-  console.log(textLowerCase);
 
   return knex("keywords")
     .distinct("category_id")

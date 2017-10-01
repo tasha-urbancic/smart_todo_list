@@ -20,7 +20,7 @@ body {
   background-color: $background-color;
   z-index: -1;
   font-family: $body-font-style;
-  font-size: $sizing-unit * 3;
+  font-size: $sizing-unit * 4;
 }
 
 .mx-auto {
@@ -29,7 +29,7 @@ body {
 
 #nav-bar .header {
   font-family: $title-font-style;
-  font-size: $sizing-unit * 12;
+  font-size: $sizing-unit * 15;
   min-width: $min-width + 100px;
 }
 

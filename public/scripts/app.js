@@ -131,15 +131,12 @@ $(() => {
       url: "/todos",
       data: { text: text }
     }).done(function(result) {
-      console.log(result);
       $(".todo-post-box").val("");
       createTodo({
         text: text,
         id: result.id,
         categoryId: result.category_id
       });
-
-      console.log(result.category_id);
     });
   }
 
@@ -176,16 +173,13 @@ $(() => {
   });
 
   function updateTodoCategory(newCategoryId, itemId, $elem) {
-    console.log(newCategoryId, itemId, $elem);
     let data = { id: itemId, category_id: newCategoryId };
-    // console.log(data);
-    // later feed in categoryId into this data object
+
     $.ajax({
       method: "POST",
       url: "/user/:id/update-category/:todo_id",
       data: { data: data },
       success: function() {
-        console.log("successful");
         $elem.remove();
         createTodo({
           text: $elem.find("span").text(),
@@ -194,7 +188,6 @@ $(() => {
         });
       }
     }).fail(function(err) {
-      console.log("unsuccessful");
       console.log(err);
     });
   }
@@ -206,15 +199,10 @@ $(() => {
       .closest("li")
       .data("id");
 
-    console.log(itemId);
-
     const listKey = $(event.target)
       .closest("ul")
       .data("key");
     const clickedKey = $(event.target).data("key");
-
-    console.log("clickedKey" + clickedKey);
-    console.log("listKey" + listKey);
 
     if (clickedKey !== listKey) {
       var newCategoryId = $(".category-button .cat-color-0.fa-circle-o")
@@ -252,9 +240,6 @@ $(() => {
       method: "POST",
       url: "/user/:id/delete/:todo_id",
       data: { id: itemId },
-      success: function(res) {
-        console.log(res);
-      }
     })
       .done(function(result) {
         $(event.target)
