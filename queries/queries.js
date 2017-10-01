@@ -14,6 +14,16 @@ function isEmailUnique(emailValue) {
     .returning(['email'])
 }
 
+function addUser(email, password) {
+  const user = {
+    email: email,
+    password_hash: password
+  };
+  return knex
+    .insert('users')
+    .returning(["id"]);
+}
+
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

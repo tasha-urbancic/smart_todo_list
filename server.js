@@ -11,6 +11,7 @@ const sass = require("node-sass-middleware");
 const app = express();
 const queries = require("./queries/queries");
 const flash = require('connect-flash');
+const bcrypt = require('bcrypt');
 
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
@@ -88,9 +89,10 @@ app.post("/register", (req, res) => {
     return;
   }
 
-  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-  queries.addUser(emailValue, hashedPassword).then(results => {
-    req.session.user_id = id;
+  const password_hash = bcrypt.hashSync(req.body.password, 10);
+  queries.addUser(emailValue, password_hash).then(results => {
+    console.log(results);
+    //req.session.user_id =
     res.redirect("/todos");
   });
 
