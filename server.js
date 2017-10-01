@@ -59,12 +59,106 @@ app.use(function(req, res, next) {
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
 
-//login
-app.get("/user/:id/login", (req, res) => {
-  let id = req.params.id;
-  req.session.user_id = id;
-  res.redirect("/");
+
+
+
+
+
+
+////////////////////////////////
+////////////////////////////////
+
+app.get("/register", (req, res) => {
+  res.render('register');
 });
+
+// submit registration info
+app.post("/register", (req, res) => {
+  let emailValue = req.body.email;
+
+  console.log(emailValue)
+  if (!emailValue || !req.body.password) {
+    res.sendStatus(400);
+    return;
+  } else if ( 1 === 0) { //queries.isEmailUnique(emailValue).length > 0
+    // queries.isEmailUnique(password_hash).then(results => {
+    //     console.log(results);
+    // });
+    //res.sendStatus(400);
+    return;
+  }
+
+  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+  queries.addUser(emailValue, hashedPassword).then(results => {
+    req.session.user_id = id;
+    res.redirect("/todos");
+  });
+
+});
+
+
+app.get("/login", (req, res) => {
+  //query.login needed here
+  //res.redirect("/");  needed after query.
+  res.render("login");
+});
+
+
+app.post("/login", (req, res) => {
+  for (let id in users) {
+    if (users[id].email === req.body.email) {  //verifyEmail()
+      if (bcrypt.compareSync(req.body.password, users[id].password)) {
+        req.session.user_id = users[id]["id"];
+        res.redirect("/todos")
+        return;
+      }
+    }
+  }
+  res.sendStatus(400);
+});
+
+
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect("/login");
+});
+
+
+// function isEmailUnique(emailValue) {
+//   for (var keys in users) {
+//     if( users[keys].email === emailValue ) {
+//       return true;
+//     }
+//   }
+// }
+
+function isEmailStored(emailValue) {
+  for (var keys in users) {
+    if (users[keys]["email"] === emailValue ) {
+      return true;
+
+    }
+  }
+}
+
+function isPasswordStored(passwordValue) {
+  for (var keys in users) {
+    if (users[keys]["password"] === passwordValue ) {
+      return true;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+////////////////////////////////
+////////////////////////////////
+
 
 app.get("/test", (req, res) => {
   res.render("test");
