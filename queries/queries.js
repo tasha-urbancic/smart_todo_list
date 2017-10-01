@@ -35,7 +35,7 @@ function getCategoryByKeyword(domain) {
 module.exports = {
   getUser: function (userName) {
     return knex
-      .select()
+      .select('*')
       .from("users")
       .where({ email: userName });
   },

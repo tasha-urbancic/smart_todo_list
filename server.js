@@ -49,7 +49,7 @@ app.use(
 app.use(express.static("public"));
 app.use(flash());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const userID = req.params.id;
   res.locals = {
     user_id: userID
@@ -76,41 +76,48 @@ app.get("/register", (req, res) => {
 // submit registration info
 app.post("/register", (req, res) => {
   let emailValue = req.body.email;
+  console.log(emailValue);
 
-  // console.log(emailValue)
-  // if (!emailValue || !req.body.password) {
-  //   res.sendStatus(400);
-  //   return;
-  // } else if ( 1 === 0) { //queries.isEmailUnique(emailValue).length > 0
-  //   // queries.isEmailUnique(password_hash).then(results => {
-  //   //     console.log(results);
-  //   // });
-  //   //res.sendStatus(400);
-  //   return;
-  // }
-
-  const password_hash = bcrypt.hashSync(req.body.password, 10);
-  queries.addUser(emailValue, password_hash).then(results => {
-    let id = results[0].id;
-    console.log(id);
-    req.session.user_id = id;
-    res.redirect("/");
-    return;
+  // if username already taken, redirect to login page
+  return queries.getUser(emailValue).then((results) => {
+    if (results.length === 0) {
+      const password_hash = bcrypt.hashSync(req.body.password, 10);
+      return queries.addUser(emailValue, password_hash).then(results => {
+        let id = results[0].id;
+        console.log(id);
+        req.session.user_id = id;
+        res.redirect("/");
+        return;
+      });
+    } else if (results[0].email === emailValue) {
+      console.log('email is stored, returning to login');
+      res.redirect('/login');
+      return;
+    }
   });
-
 });
 
 app.post("/login", (req, res) => {
-  for (let id in users) {
-    if (users[id].email === req.body.email) {  //verifyEmail()
-      if (bcrypt.compareSync(req.body.password, users[id].password)) {
-        req.session.user_id = users[id]["id"];
-        res.redirect("/")
+  // check if email doesn't exist, redirect to registration
+  let emailValue = req.body.email;
+
+  return queries.getUser(emailValue).then((results) => {
+    if (results.length === 0) {
+      console.log("email isn't stored, sending to register");
+      res.redirect('/register');
+      return;
+    } else if (results[0].email === emailValue) {
+      return queries.getUser(emailValue).then((results) => {
+        const user = results[0];
+        console.log(req.body.password, user.password_hash);
+        handleBadLoginInfo(user, req.body.password, user.password_hash);
+        req.session.user_id = user.id;
+        res.redirect("/");
+        res.sendStatus(400);
         return;
-      }
+      });
     }
-  }
-  res.sendStatus(400);
+  });
 });
 
 
@@ -119,29 +126,25 @@ app.post("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-
-// function isEmailUnique(emailValue) {
-//   for (var keys in users) {
-//     if( users[keys].email === emailValue ) {
-//       return true;
-//     }
-//   }
-// }
-
-function isEmailStored(emailValue) {
-  for (var keys in users) {
-    if (users[keys]["email"] === emailValue ) {
-      return true;
-
-    }
-  }
-}
-
-function isPasswordStored(passwordValue) {
-  for (var keys in users) {
-    if (users[keys]["password"] === passwordValue ) {
-      return true;
-    }
+/**
+* Handles user entering bad login info.
+* Takes inputs:
+*
+* @param {user} object
+* @param {request} object
+* @param {response} object
+*
+* It returns a function, redirect, which redirects
+* to the login or register page.
+* @param {response.redirect()} function
+*/
+function handleBadLoginInfo(user, passwordEntered, hashedPassword) {
+  if (!user) {
+    response.status(404);
+    return response.redirect(404, "/register");
+  } else if (!bcrypt.compareSync(passwordEntered, hashedPassword)) {
+    response.status(404);
+    return response.redirect(404, "/login");
   }
 }
 
@@ -152,6 +155,8 @@ function isPasswordStored(passwordValue) {
 
 // Home page
 app.get("/", (req, res) => {
+  // check here if user is logged in (i.e. cookie exists), 
+  // and if not redirect to login page
   queries.getCategories().then(results => {
     res.render("index", {
       errors: req.flash('errors'),
