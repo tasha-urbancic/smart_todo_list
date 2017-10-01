@@ -8,10 +8,10 @@ var rp = require('request-promise');
 
 function isEmailUnique(emailValue) {
   return knex
-    .select('password')
+    .select('email')
     .from('users')
-    .where('password', password_hash)
-    .returning(['password_hash'])
+    .where('email', emailValue)
+    .returning(['email'])
 }
 
 function toTitleCase(str) {
@@ -111,7 +111,7 @@ module.exports = {
             }).catch((error) => Promise.reject(error));
           } else {
             return Promise.reject();
-          }  
+          }
         }).catch((error) => Promise.reject(error));
       }
     });
@@ -135,7 +135,7 @@ module.exports = {
         );
 
         const httpReqString = getWolframHttp(text);
-        
+
         return rp(httpReqString).then((body) => {
           const domain = JSON.parse(body).query[0].domain;
           console.log(domain);
@@ -144,14 +144,14 @@ module.exports = {
 
             updateObject.category_id = result[0].category_id;
             console.log('starting knex update');
-          
+
             return knex("todos")
               .where("todos.id", id)
               .update(updateObject)
               .returning(["id", "item", "category_id"]);
           });
         });
-        
+
       } else {
         updateObject.category_id = categoryIds[0].category_id;
 
