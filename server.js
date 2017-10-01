@@ -62,12 +62,8 @@ app.use("/todos", todosRoutes(knex));
 
 
 
-
-
-
-
 ////////////////////////////////
-////////////////////////////////
+
 
 app.get("/register", (req, res) => {
   res.render('register');
@@ -76,6 +72,7 @@ app.get("/register", (req, res) => {
 // submit registration info
 app.post("/register", (req, res) => {
   let emailValue = req.body.email;
+
 
   console.log(emailValue)
   if (!emailValue || !req.body.password) {
@@ -96,11 +93,9 @@ app.post("/register", (req, res) => {
   });
 });
 
-
 app.get("/login", (req, res) => {
   res.render("login");
 });
-
 
 app.post("/login", (req, res) => {
   queries.checkUserEmailExists(req.body.email).then(results => {
@@ -117,6 +112,9 @@ app.post("/login", (req, res) => {
   })
 });
 
+app.get("/login", (req, res) => {
+  res.render('login');
+});
 
 app.post("/logout", (req, res) => {
   req.session = null;
@@ -124,7 +122,6 @@ app.post("/logout", (req, res) => {
 });
 
 
-////////////////////////////////
 ////////////////////////////////
 
 
@@ -136,12 +133,6 @@ app.get("/", (req, res) => {
       categories: results
     });
   });
-});
-
-//logout page
-app.get("/logout", (req, res) => {
-  // req.session.user_id = null;
-  // res.redirect("/");
 });
 
 //delete todo

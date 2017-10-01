@@ -33,6 +33,22 @@ body {
   min-width: $min-width + 100px;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn.btn-primary {
+  color: $background-color;
+  background-color: black;
+  border-color: black;
+  font-size: $sizing-unit * 4;
+}
+
+h4 {
+  font-size: $sizing-unit * 4;
+}
+
 // Todo list Styling
 @import "todo";
 
