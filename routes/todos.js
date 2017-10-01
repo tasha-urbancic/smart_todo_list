@@ -13,6 +13,7 @@ module.exports = knex => {
 
   router.post("/", (req, res) => {
     queries.addTodo(req.body.text, req.session.user_id).then(([todoObject]) => {
+      console.log(todoObject);
       res.send(todoObject);
     });
   });

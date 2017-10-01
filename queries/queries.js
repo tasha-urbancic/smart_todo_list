@@ -11,16 +11,30 @@ function toTitleCase(str) {
   });
 }
 
+function getWolframHttp(text) {
+  const wolframStyleStr = toTitleCase(text).replace(/\s/g, "");
+
+  return (
+    "http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=" +
+    wolframStyleStr +
+    "&output=json"
+  );
+}
+
+function getCategoryByKeyword(domain) {
+  return knex
+    .select('keywords.category_id')
+    .from('keywords')
+    .where('keywords.keyword', domain)
+    .returning(["category_id"]);
+}
+
 module.exports = {
   getUser: function(userName) {
     return knex
       .select()
       .from("users")
       .where({ email: userName });
-  },
-
-  getCategoryByKeyword: function(domain) {
-    return knex.select("category_id").from("keywords").where(keyword, domain);
   },
 
   getCategories: function() {
@@ -39,26 +53,7 @@ module.exports = {
   addTodo: function(text, userId) {
     console.log(text);
     return getCategory(text).then(categoryIds => {
-      if (categoryIds.length === 0) {
-        console.log(
-          "your input string did not contain any key verbs. Testing wolfram API"
-        );
-
-        const wolframStyleStr = toTitleCase(text).replace(/\s/g, "");
-
-        const httpReqString = "http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=" +
-        wolframStyleStr +
-        "&output=json";
-
-        const wolframOutput = request(httpReqString, function(error, response, body) {
-          const domain = JSON.parse(body).query[0].domain;
-          console.log(domain);
-          return domain;
-        });
-        
-        console.log(wolframOutput);
-
-      } else {
+      if (categoryIds.length !== 0) {
         const categoryId = categoryIds[0].category_id;
         const item = {
           item: text,
@@ -70,6 +65,44 @@ module.exports = {
         return knex("todos")
           .insert(item)
           .returning(["id", "category_id"]);
+
+      } else if (categoryIds.length === 0) {
+        console.log(
+          "your input string did not contain any key verbs. Testing wolfram API"
+        );
+
+        const httpReqString = getWolframHttp(text);
+
+        request(httpReqString, function(error, response, body) {
+          const domain = JSON.parse(body).query[0].domain;
+          console.log(domain);
+
+          getCategoryByKeyword(domain).then((result) => {
+
+            const categoryId = result[0].category_id;
+
+            if (categoryId) {
+              console.log(categoryId);
+              const item = {
+                item: text,
+                completed_toggle: 0,
+                user_id: userId,
+                category_id: categoryId
+              };
+
+              console.log(item);
+
+              console.log('starting knex insertion');
+              return knex("todos")
+                .insert(item)
+                .returning(["id", "category_id"]);
+
+            } else {
+              console.log("not able to be sorted");
+            }
+
+          });
+        });
       }
     });
   },
