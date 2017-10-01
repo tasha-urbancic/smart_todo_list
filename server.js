@@ -62,12 +62,12 @@ app.use("/todos", todosRoutes(knex));
 
 
 
-
-
-
-
 ////////////////////////////////
 ////////////////////////////////
+
+app.get("/login", (req, res) => {
+  res.render('login');
+});
 
 app.get("/register", (req, res) => {
   res.render('register');
@@ -77,17 +77,17 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   let emailValue = req.body.email;
 
-  console.log(emailValue)
-  if (!emailValue || !req.body.password) {
-    res.sendStatus(400);
-    return;
-  } else if ( 1 === 0) { //queries.isEmailUnique(emailValue).length > 0
-    // queries.isEmailUnique(password_hash).then(results => {
-    //     console.log(results);
-    // });
-    //res.sendStatus(400);
-    return;
-  }
+  // console.log(emailValue)
+  // if (!emailValue || !req.body.password) {
+  //   res.sendStatus(400);
+  //   return;
+  // } else if ( 1 === 0) { //queries.isEmailUnique(emailValue).length > 0
+  //   // queries.isEmailUnique(password_hash).then(results => {
+  //   //     console.log(results);
+  //   // });
+  //   //res.sendStatus(400);
+  //   return;
+  // }
 
   const password_hash = bcrypt.hashSync(req.body.password, 10);
   queries.addUser(emailValue, password_hash).then(results => {
@@ -99,14 +99,6 @@ app.post("/register", (req, res) => {
   });
 
 });
-
-
-app.get("/login", (req, res) => {
-  //query.login needed here
-  //res.redirect("/");  needed after query.
-  res.render("login");
-});
-
 
 app.post("/login", (req, res) => {
   for (let id in users) {
@@ -154,19 +146,9 @@ function isPasswordStored(passwordValue) {
 }
 
 
-
-
-
-
-
-
 ////////////////////////////////
 ////////////////////////////////
 
-
-app.get("/test", (req, res) => {
-  res.render("test");
-});
 
 // Home page
 app.get("/", (req, res) => {
@@ -176,12 +158,6 @@ app.get("/", (req, res) => {
       categories: results
     });
   });
-});
-
-//logout page
-app.get("/logout", (req, res) => {
-  // req.session.user_id = null;
-  // res.redirect("/");
 });
 
 //delete todo

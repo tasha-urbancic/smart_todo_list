@@ -61,6 +61,9 @@ h5 {
 .todo-button {
   border-radius: $border-radius;
   margin-left: 1em;
+  background-color: black;
+  color: $background-color;
+  border-color: black;
 }
 
 .todo-list {
