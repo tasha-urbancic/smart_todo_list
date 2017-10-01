@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const queries = require('../queries/queries');
+const queries = require("../queries/queries");
 
 module.exports = knex => {
   router.get("/", (req, res) => {
@@ -10,9 +10,10 @@ module.exports = knex => {
       res.json(results);
     });
   });
-  
+
   router.post("/", (req, res) => {
     queries.addTodo(req.body.text, req.session.user_id).then(([todoObject]) => {
+      console.log(todoObject);
       res.send(todoObject);
     });
   });

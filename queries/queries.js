@@ -3,6 +3,31 @@ const knexConfig = require("../knexfile");
 const ENV = process.env.ENV || "development";
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require("knex-logger");
+var request = require("request");
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
+function getWolframHttp(text) {
+  const wolframStyleStr = toTitleCase(text).replace(/\s/g, "");
+
+  return (
+    "http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=" +
+    wolframStyleStr +
+    "&output=json"
+  );
+}
+
+function getCategoryByKeyword(domain) {
+  return knex
+    .select('keywords.category_id')
+    .from('keywords')
+    .where('keywords.keyword', domain)
+    .returning(["category_id"]);
+}
 
 module.exports = {
   getUser: function(userName) {
@@ -13,9 +38,7 @@ module.exports = {
   },
 
   getCategories: function() {
-    return knex
-      .select("*")
-      .from("categories");
+    return knex.select("*").from("categories");
   },
 
   getTodoList: function(userId) {
@@ -28,15 +51,9 @@ module.exports = {
   },
 
   addTodo: function(text, userId) {
+    console.log(text);
     return getCategory(text).then(categoryIds => {
-      if (categoryIds.length === 0) {
-        console.log("your input string did not contain any key words. Setting default cat_id");
-
-        return knex("todos")
-          .insert(item)
-          .returning(["id", "category_id"]);
-
-      } else {
+      if (categoryIds.length !== 0) {
         const categoryId = categoryIds[0].category_id;
         const item = {
           item: text,
@@ -49,8 +66,44 @@ module.exports = {
           .insert(item)
           .returning(["id", "category_id"]);
 
-      }
+      } else if (categoryIds.length === 0) {
+        console.log(
+          "your input string did not contain any key verbs. Testing wolfram API"
+        );
 
+        const httpReqString = getWolframHttp(text);
+
+        request(httpReqString, function(error, response, body) {
+          const domain = JSON.parse(body).query[0].domain;
+          console.log(domain);
+
+          getCategoryByKeyword(domain).then((result) => {
+
+            const categoryId = result[0].category_id;
+
+            if (categoryId) {
+              console.log(categoryId);
+              const item = {
+                item: text,
+                completed_toggle: 0,
+                user_id: userId,
+                category_id: categoryId
+              };
+
+              console.log(item);
+
+              console.log('starting knex insertion');
+              return knex("todos")
+                .insert(item)
+                .returning(["id", "category_id"]);
+
+            } else {
+              console.log("not able to be sorted");
+            }
+
+          });
+        });
+      }
     });
   },
 
@@ -67,17 +120,17 @@ module.exports = {
 
     return getCategory(item).then(categoryIds => {
       if (categoryIds.length === 0) {
-        console.log("your input string did not contain any key words. Setting default cat_id");
-
+        console.log(
+          "your input string did not contain any key words. Setting default cat_id"
+        );
       } else {
         updateObject.category_id = categoryIds[0].category_id;
 
         return knex("todos")
-        .where("todos.id", id)
-        .update(updateObject)
-        .returning(["id", "item", "category_id"]);
+          .where("todos.id", id)
+          .update(updateObject)
+          .returning(["id", "item", "category_id"]);
       }
-
     });
   },
   updateTodoCategory: function(id, categoryId) {

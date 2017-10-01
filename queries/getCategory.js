@@ -4,12 +4,13 @@ const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require("knex-logger");
 
 module.exports = function getCategory(todoItem) {
+  const textLowerCase = todoItem.toLowerCase();
+  console.log(textLowerCase);
 
-  return knex('keywords')
-  .distinct('category_id')
-  .select()
-  .whereRaw("? LIKE keywords.keyword || ' %'", [todoItem]);
-  
+  return knex("keywords")
+    .distinct("category_id")
+    .select()
+    .whereRaw("? LIKE keywords.keyword || ' %'", [textLowerCase]);
 };
 
 // parameterized queries
