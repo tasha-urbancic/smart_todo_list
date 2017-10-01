@@ -94,7 +94,15 @@ exports.seed = function(knex, Promise) {
             category_id: categoryIds[1]
           },
           {
+            keyword: "a fictional character",
+            category_id: categoryIds[1]
+          },
+          {
             keyword: "books",
+            category_id: categoryIds[1]
+          },
+          {
+            keyword: "a text",
             category_id: categoryIds[1]
           },
           {
@@ -118,7 +126,23 @@ exports.seed = function(knex, Promise) {
             category_id: categoryIds[3]
           },
           {
+            keyword: "music works",
+            category_id: categoryIds[3]
+          },
+          {
+            keyword: "consumer products",
+            category_id: categoryIds[3]
+          },
+          {
             keyword: "eat",
+            category_id: categoryIds[2]
+          },
+          {
+            keyword: "finance",
+            category_id: categoryIds[2]
+          },
+          {
+            keyword: "retail locations",
             category_id: categoryIds[2]
           },
           {
