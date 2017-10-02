@@ -26,6 +26,24 @@
     display: none;
   }
 
+  .login-div h4 {
+    display: block;
+    font-size: $sizing-unit * 10;
+  }
+
+  .login-div {
+    font-size: $sizing-unit * 10;
+  }
+
+  .btn.btn-primary {
+    font-size: $sizing-unit * 10;
+  }
+
+  .login-buttons,
+  .logout-button {
+    font-size: $sizing-unit * 10;
+  }
+
   .todo-post-box {
     width: 800px;
     height: 3em;
