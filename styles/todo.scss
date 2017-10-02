@@ -19,6 +19,10 @@
   color: $color-header-cat3;
 }
 
+.category-button .cat-color-4.alternate-category.fa-circle-o {
+  color: $color-header-cat4;
+}
+
 .fa-minus {
   height: 10px;
   float: right;
@@ -128,6 +132,18 @@ h5 {
 
 .todo-list-3 .category-button .cat-color-3.current-category.fa-circle {
   color: $color-header-cat3;
+}
+
+.todo-list-4 {
+  background-color: $color-background-cat4;
+}
+
+.todo-list-4 h5 {
+  background-color: $color-header-cat4;
+}
+
+.todo-list-4 .category-button .cat-color-4.current-category.fa-circle {
+  color: $color-header-cat4;
 }
 
 .todo-post-box {
