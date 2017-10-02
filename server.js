@@ -80,7 +80,6 @@ app.post("/register", (req, res) => {
       const password_hash = bcrypt.hashSync(req.body.password, 10);
       return queries.addUser(emailValue, password_hash).then(results => {
         let id = results[0].id;
-        console.log(id);
         req.session.user_id = id;
         req.session.user = emailValue;
         res.redirect("/");
@@ -100,8 +99,8 @@ app.post("/login", (req, res) => {
   let emailValue = req.body.email;
 
   return queries.getUser(emailValue).then((results) => {
+    console.log(results);
     if (results.length === 0) {
-      console.log("email isn't stored, sending to register");
       res.redirect('/register');
       return;
     } else if (results[0].email === emailValue) {
