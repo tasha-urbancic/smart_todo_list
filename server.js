@@ -49,10 +49,10 @@ app.use(
 app.use(express.static("public"));
 app.use(flash());
 
-app.use(function (req, res, next) {
-  const userID = req.params.id;
-  res.locals = {
-    user: userID
+app.use(function(request, response, next) {
+  response.locals = {
+    error: undefined,
+    user: request.session.user_id
   };
   next();
 });
@@ -67,7 +67,6 @@ app.get("/register", (req, res) => {
 // submit registration info
 app.post("/register", (req, res) => {
   let emailValue = req.body.email;
-<<<<<<< HEAD
   console.log(emailValue);
 
   // if username already taken, redirect to login page
@@ -101,7 +100,6 @@ app.post("/login", (req, res) => {
     } else if (results[0].email === emailValue) {
       return queries.getUser(emailValue).then((results) => {
         const user = results[0];
-        console.log(req.body.password, user.password_hash);
         handleBadLoginInfo(user, req.body.password, user.password_hash);
         req.session.user_id = user.id;
         res.redirect("/");
@@ -145,8 +143,6 @@ function handleBadLoginInfo(user, passwordEntered, hashedPassword) {
 
 // Home page
 app.get("/", (req, res) => {
-  // check here if user is logged in (i.e. cookie exists), 
-  // and if not redirect to login page
   queries.getCategories().then(results => {
     res.render("index", {
       errors: req.flash('errors'),
