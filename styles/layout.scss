@@ -18,11 +18,31 @@ $color-header-cat4: #abb89e;
 $color-background-cat4: #f0faee;
 $min-width: 460px;
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 body {
   background-color: $background-color;
   z-index: -1;
   font-family: $body-font-style;
   font-size: $sizing-unit * 4;
+}
+
+.btn.btn-primary {
+  color: $background-color;
+  background-color: black;
+  border-color: black;
+  font-size: $sizing-unit * 4;
+}
+
+h4 {
+  font-size: $sizing-unit * 4;
+}
+
+.logout-button {
+  margin: 5px 0 0 10px;
 }
 
 .mx-auto {
@@ -35,20 +55,8 @@ body {
   min-width: $min-width + 100px;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.btn.btn-primary {
-  color: $background-color;
-  background-color: black;
-  border-color: black;
-  font-size: $sizing-unit * 4;
-}
-
-h4 {
-  font-size: $sizing-unit * 4;
+.nav-user-id {
+  margin: 0 0 0 10px;
 }
 
 // Todo list Styling

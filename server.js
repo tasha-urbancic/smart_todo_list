@@ -50,9 +50,11 @@ app.use(express.static("public"));
 app.use(flash());
 
 app.use(function(request, response, next) {
+  console.log(request.session);
   response.locals = {
     error: undefined,
-    user: request.session.user_id
+    userId: request.session.user_id,
+    user: request.session.user
   };
   next();
 });
@@ -77,6 +79,7 @@ app.post("/register", (req, res) => {
         let id = results[0].id;
         console.log(id);
         req.session.user_id = id;
+        req.session.user = emailValue;
         res.redirect("/");
         return;
       });
@@ -102,6 +105,7 @@ app.post("/login", (req, res) => {
         const user = results[0];
         handleBadLoginInfo(user, req.body.password, user.password_hash);
         req.session.user_id = user.id;
+        req.session.user = emailValue;
         res.redirect("/");
         res.sendStatus(400);
         return;
