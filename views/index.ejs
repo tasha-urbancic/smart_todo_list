@@ -28,14 +28,15 @@
       </nav>
     <% } else { %>
       <nav id="nav-bar">
-        <span class="nav-user-id">User: <%=user%></span>
-        <form action='/logout' method="POST" class='logout-button'>
-          <button type='submit'>Logout</button>
-        </form>
+        <div>
+          <span class="nav-user-id">User: <%=user%></span>
+          <form action='/logout' method="POST" class='logout-button'>
+            <button type='submit'>Logout</button>
+          </form>
+        </div>
         <span class="text-center">
           <p class='header'>Smart To-Do List</p>
         </span>
-
       </nav>
 
       <main>

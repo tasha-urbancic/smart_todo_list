@@ -1,3 +1,5 @@
+
+// function creates the category circles
 function createCategoryCircles(catId) {
   var keyNum = $("ul[data-category=" + catId + "]").data("key");
 
@@ -74,6 +76,8 @@ function createCategoryCircles(catId) {
   return categoryDiv;
 }
 
+// function creates a single todo list item, 
+// and appends to the appropriate list
 function createTodo(itemObj) {
   const listItem = $("<li>")
     .addClass("item-wrapper")
@@ -115,6 +119,7 @@ function createTodo(itemObj) {
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
 }
 
+// delete a single todo list item
 function deleteTodo(event) {
     const itemId = $(event.target)
       .closest("li")
@@ -157,6 +162,7 @@ $(() => {
     });
   }
 
+  // when page is loaded, load the todos
   loadTodos();
 
   function createNewTodo(event) {
@@ -179,7 +185,6 @@ $(() => {
 
   function updateTodo(text, itemId, $elem) {
     let data = { id: itemId, item: text };
-    // later feed in categoryId into this data object
     $.ajax({
       method: "POST",
       url: "/user/:id/update-text/:todo_id",
@@ -206,9 +211,6 @@ $(() => {
         deleteTodo(event);
         return;
       } else {
-
-
-      //let text = $(event.target).text();
       const itemId = $(event.target)
         .closest("li")
         .data("id");
@@ -237,6 +239,7 @@ $(() => {
     });
   }
 
+  // listener: clicking category buttons
   $(".todo-list").on("click", ".category-button", function(event) {
     event.preventDefault();
 
@@ -261,6 +264,7 @@ $(() => {
     }
   });
 
+  // listener: clicking list items, show action buttons
   $(".todo-list").on("click", "li", function(event) {
     $(event.target)
       .siblings(".action-button")
@@ -276,20 +280,25 @@ $(() => {
     });
   });
 
+  // listener: clicking trash button
   $(".todo-list").on("click", ".fa-trash-o", deleteTodo);
 
+  // listener: clicking submit button on form
   $(".todo-button").on("click", createNewTodo);
 
+  // listener: on enter, submit and create todo
   $(".todo-post-box").on("keypress", function(event) {
     if (event.which === 13) {
       createNewTodo(event);
     }
   });
 
+  // listener: on the phone, on enter create new todo
   $(".todo-post-box").submit(function(event) {
     createNewTodo(event);
   });
 
+  // on click of minus sign, toggle list closed
   $(".header-toggle")
     .find("i")
     .on("click", function(event) {

@@ -15,7 +15,7 @@
   }
 
   h5 {
-    font-size: $sizing-unit * 12;
+    font-size: $sizing-unit * 11;
   }
 
   #nav-bar .header {
@@ -39,9 +39,12 @@
     font-size: $sizing-unit * 10;
   }
 
-  .login-buttons,
-  .logout-button {
+  .login-buttons {
     font-size: $sizing-unit * 10;
+  }
+
+  .logout-button {
+    font-size: $sizing-unit * 7;
   }
 
   .todo-post-box {
