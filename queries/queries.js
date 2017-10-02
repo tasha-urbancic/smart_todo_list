@@ -128,7 +128,19 @@ module.exports = {
 
             }).catch((error) => Promise.reject(error));
           } else {
-            return Promise.reject();
+            console.log('yes')
+            const categoryId = 5  //replace with subquery/join to determine miscellaneous category_id
+            const item = {
+                item: text,
+                completed_toggle: 0,
+                user_id: userId,
+                category_id: categoryId
+              };
+
+            return Promise.resolve(knex("todos")
+              .insert(item)
+              .returning(["id", "category_id"]));
+            //return Promise.reject();
           }
         }).catch((error) => Promise.reject(error));
       }
@@ -156,16 +168,26 @@ module.exports = {
         return rp(httpReqString).then((body) => {
           const domain = JSON.parse(body).query[0].domain;
 
-          return getCategoryByKeyword(domain).then((result) => {
 
-            updateObject.category_id = result[0].category_id;
-            console.log('starting knex update');
+          if (domain) {
+            return getCategoryByKeyword(domain).then((result) => {
+
+              updateObject.category_id = result[0].category_id;
+              console.log('starting knex update');
+
+              return knex("todos")
+                .where("todos.id", id)
+                .update(updateObject)
+                .returning(["id", "item", "category_id"]);
+            });
+          } else { //replace with subquery/join to determine miscellaneous category_id
+            updateObject.category_id = 5;
 
             return knex("todos")
               .where("todos.id", id)
               .update(updateObject)
               .returning(["id", "item", "category_id"]);
-          });
+          }
         });
 
       } else {

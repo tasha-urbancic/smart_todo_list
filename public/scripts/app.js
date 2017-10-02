@@ -17,12 +17,17 @@ function createCategoryCircles(catId) {
     .addClass("cat-color-3")
     .data("key", 3)
     .attr("aria-hidden", "true");
+  const circle5 = $("<i>")
+    .addClass("cat-color-4")
+    .data("key", 4)
+    .attr("aria-hidden", "true");
 
   if (keyNum === 0) {
     circle1.addClass("fa fa-circle fa-lg").addClass("current-category");
     circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle5.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 1) {
@@ -30,6 +35,7 @@ function createCategoryCircles(catId) {
     circle2.addClass("fa fa-circle fa-lg").addClass("current-category");
     circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle5.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 2) {
@@ -37,13 +43,23 @@ function createCategoryCircles(catId) {
     circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle3.addClass("fa fa-circle fa-lg").addClass("current-category");
     circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle5.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
   }
 
   if (keyNum === 3) {
     circle1.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
     circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
-    circle4.addClass("fa fa-circlefa-lg").addClass("current-category");
+    circle4.addClass("fa fa-circle fa-lg").addClass("current-category");
+    circle5.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+  }
+
+  if (keyNum === 4) {
+    circle1.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle2.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle3.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle4.addClass("fa fa-circle-o fa-lg").addClass("alternate-category");
+    circle5.addClass("fa fa-circle fa-lg").addClass("current-category");
   }
 
   const categoryDiv = $("<div>")
@@ -52,6 +68,7 @@ function createCategoryCircles(catId) {
     .append(circle2)
     .append(circle3)
     .append(circle4)
+    .append(circle5)
     .css("display", "inline-block");
 
   return categoryDiv;
@@ -96,6 +113,26 @@ function createTodo(itemObj) {
     .append(actionDiv);
 
   listItem.prependTo($("ul[data-category=" + itemObj.categoryId + "]"));
+}
+
+function deleteTodo(event) {
+    const itemId = $(event.target)
+      .closest("li")
+      .data("id");
+    event.preventDefault();
+    $.ajax({
+      method: "POST",
+      url: "/user/:id/delete/:todo_id",
+      data: { id: itemId },
+    })
+      .done(function(result) {
+        $(event.target)
+          .closest("li")
+          .remove();
+      })
+      .fail(function(err) {
+        console.log(err);
+      });
 }
 
 $(() => {
@@ -165,10 +202,18 @@ $(() => {
     if (event.keyCode === 13) {
       event.preventDefault();
       let text = $(event.target).text();
+      if (text.length === 0) {
+        deleteTodo(event);
+        return;
+      } else {
+
+
+      //let text = $(event.target).text();
       const itemId = $(event.target)
         .closest("li")
         .data("id");
       updateTodo(text, itemId, $(event.target));
+      }
     }
   });
 
@@ -231,25 +276,7 @@ $(() => {
     });
   });
 
-  $(".todo-list").on("click", ".fa-trash-o", function(event) {
-    const itemId = $(event.target)
-      .closest("li")
-      .data("id");
-    event.preventDefault();
-    $.ajax({
-      method: "POST",
-      url: "/user/:id/delete/:todo_id",
-      data: { id: itemId },
-    })
-      .done(function(result) {
-        $(event.target)
-          .closest("li")
-          .remove();
-      })
-      .fail(function(err) {
-        console.log(err);
-      });
-  });
+  $(".todo-list").on("click", ".fa-trash-o", deleteTodo);
 
   $(".todo-button").on("click", createNewTodo);
 
