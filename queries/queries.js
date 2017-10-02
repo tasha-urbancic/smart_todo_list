@@ -53,12 +53,12 @@ module.exports = {
       .orderBy("created_at", "desc");
   },
 
-  isEmailUnique: function (emailValue) {
+  checkUserEmailExists: function (emailValue) {
     return knex
-      .select('email')
+      .select('id', 'email', 'password_hash')
       .from('users')
       .where('email', emailValue)
-      .returning(['email'])
+      .returning(['id','email', 'password_hash'])
   },
 
   addUser: function (email, password) {
@@ -99,7 +99,7 @@ module.exports = {
         // const arrayOfWords = text.split(' ');
         // const firstWordRemoved = arrayOfWords.splice(1).join(' ');
         // const httpReqStringTest2 = getWolframHttp(firstWordRemoved);
-        
+
         // check if all words from input match
         return rp(httpReqStringTest1).then((body) => {
           const domain = JSON.parse(body).query[0].domain;

@@ -52,22 +52,13 @@ app.use(flash());
 app.use(function (req, res, next) {
   const userID = req.params.id;
   res.locals = {
-    user_id: userID
+    user: userID
   };
   next();
 });
 
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
-
-
-
-////////////////////////////////
-////////////////////////////////
-
-app.get("/login", (req, res) => {
-  res.render('login');
-});
 
 app.get("/register", (req, res) => {
   res.render('register');
@@ -76,6 +67,7 @@ app.get("/register", (req, res) => {
 // submit registration info
 app.post("/register", (req, res) => {
   let emailValue = req.body.email;
+<<<<<<< HEAD
   console.log(emailValue);
 
   // if username already taken, redirect to login page
@@ -120,6 +112,9 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.get("/login", (req, res) => {
+  res.render('login');
+});
 
 app.post("/logout", (req, res) => {
   req.session = null;
@@ -147,11 +142,6 @@ function handleBadLoginInfo(user, passwordEntered, hashedPassword) {
     return response.redirect(404, "/login");
   }
 }
-
-
-////////////////////////////////
-////////////////////////////////
-
 
 // Home page
 app.get("/", (req, res) => {

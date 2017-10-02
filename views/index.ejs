@@ -14,68 +14,66 @@
 </head>
 
 <body>
-  <!-- Top nav bar (fixed) -->
-  <nav id="nav-bar">
-    <!-- Button trigger modal -->
 
-    <div class = 'login-buttons'>
-      <a href="/register">Register</a> | <a href="/login">Login</a>
-    </div>
-    <form action='/logout' method="POST">
-      <button type='submit'>Logout</button>
-    </form>
-    <span class="text-center">
-      <p class='header'>Smart To-Do List</p>
-    </span>
-  </nav>
-
-  <main>
-
-    <section>
-      <form class="new-todo" action="/" method="POST">
-        <textarea class='todo-post-box' name="text" placeholder="watch Harry Potter"></textarea>
-        <input class="todo-button" type="submit" name="todo-item" value="add">
-      </form>
-    </section>
-
-    <%- include partials/_flash.ejs %>
-
-    <div class='todo-lists'>
-      <div class="mx-auto">
-
-          <% for (var key in categories) { %>
-            <div class="row">
-              <div class='col'>
-                <div class='<%="todo-list-" + key%> todo-list'>
-                  <div class="header-toggle">
-                    <h5 class="category-header">
-                      <%=categories[key].name%>
-                      <i class="fa fa-minus" aria-hidden="true"></i>
-                    </h5>
-                  </div>
-                  <ul data-category='<%=categories[key].id%>' data-key='<%=key%>' class="toggle-list"></ul>
-                </div>
-              </div>
-            </div>
-          <% } %>
-
-
-<!-- const container = $("div")
-  const row = $("div")
-    .addClass("row");
-  const col = $("div")
-    .addClass("col");
-  const listBox = $("div")
-    .addClass("<%="todo-list-" + key%> todo-list");
-  const boxHeader = $("div")
-    .addClass("text-center")
-  const boxHeading = $("h5")
-    .addClass("<%=categories[key].name%>"); -->
-
+    <% if (!user){ %>
+      <nav id="nav-bar">
+        <div class = 'login-buttons'>
+          <a href="/register">Register</a> | <a href="/login">Login</a>
         </div>
-      </div>
-    </div>
-  </main>
+
+        <span class="text-center">
+          <p class='header'>Smart To-Do List</p>
+        </span>
+    
+      </nav>
+    <% } else { %>
+      <nav id="nav-bar">
+        <form action='/logout' method="POST">
+          <button type='submit'>Logout</button>
+        </form>
+
+        <span class="text-center">
+          <p class='header'>Smart To-Do List</p>
+        </span>
+
+      </nav>
+
+      <main>
+
+        <section>
+          <form class="new-todo" action="/" method="POST">
+            <textarea class='todo-post-box' name="text" placeholder="watch Harry Potter"></textarea>
+            <input class="todo-button" type="submit" name="todo-item" value="add">
+          </form>
+        </section>
+
+        <%- include partials/_flash.ejs %>
+
+        <div class='todo-lists'>
+          <div class="mx-auto">
+
+              <% for (var key in categories) { %>
+                <div class="row">
+                  <div class='col'>
+                    <div class='<%="todo-list-" + key%> todo-list'>
+                      <div class="header-toggle">
+                        <h5 class="category-header">
+                          <%=categories[key].name%>
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                        </h5>
+                      </div>
+                      <ul data-category='<%=categories[key].id%>' data-key='<%=key%>' class="toggle-list"></ul>
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+
+            </div>
+          </div>
+        </div>
+      </main>
+
+    <% } %>
 
 </body>
 
