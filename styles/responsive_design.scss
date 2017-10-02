@@ -3,8 +3,8 @@
     font-size: $sizing-unit * 7;
   }
 
-  .mx-auto {
-    width: 800px;
+  .btn.btn-primary {
+    font-size: $sizing-unit * 10;
   }
 
   .fa-circle-o,
@@ -18,16 +18,11 @@
     font-size: $sizing-unit * 11;
   }
 
-  #nav-bar .header {
-    font-size: $sizing-unit * 22;
+  .logout-button {
+    font-size: $sizing-unit * 7;
   }
 
-  .todo-button {
-    display: none;
-  }
-
-  .login-div h4 {
-    display: block;
+  .login-buttons {
     font-size: $sizing-unit * 10;
   }
 
@@ -35,16 +30,21 @@
     font-size: $sizing-unit * 10;
   }
 
-  .btn.btn-primary {
+  .login-div h4 {
+    display: block;
     font-size: $sizing-unit * 10;
   }
 
-  .login-buttons {
-    font-size: $sizing-unit * 10;
+  .mx-auto {
+    width: 800px;
   }
 
-  .logout-button {
-    font-size: $sizing-unit * 7;
+  #nav-bar .header {
+    font-size: $sizing-unit * 22;
+  }
+
+  .todo-button {
+    display: none;
   }
 
   .todo-post-box {
