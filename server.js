@@ -56,28 +56,6 @@ app.use(function(request, response, next) {
   next();
 });
 
-/**
-* Handles user entering bad login info.
-* Takes inputs:
-*
-* @param {user} object
-* @param {request} object
-* @param {response} object
-*
-* It returns a function, redirect, which redirects
-* to the login or register page.
-* @param {response.redirect()} function
-*/
-function handleBadLoginInfo(user, passwordEntered, hashedPassword) {
-  if (!user) {
-    response.status(404);
-    return response.redirect(404, "/register");
-  } else if (!bcrypt.compareSync(passwordEntered, hashedPassword)) {
-    response.status(404);
-    return response.redirect(404, "/login");
-  }
-}
-
 // Mount all resource routes
 app.use("/todos", todosRoutes(knex));
 
@@ -129,7 +107,13 @@ app.post("/login", (req, res) => {
     } else if (results[0].email === emailValue) {
       return queries.getUser(emailValue).then((results) => {
         const user = results[0];
-        handleBadLoginInfo(user, req.body.password, user.password_hash);
+        if (!user) {
+          res.status(404);
+          return res.redirect(404, "/register");
+        } else if (!bcrypt.compareSync(req.body.password, user.password_hash)) {
+          res.status(404);
+          return res.redirect(404, "/login");
+        }
         req.session.user_id = user.id;
         req.session.user = emailValue;
         res.redirect("/");
