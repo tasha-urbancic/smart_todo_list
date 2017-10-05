@@ -30,7 +30,7 @@
 
 ## Final Product
 
-![“Add New Todo”]()
-![“Minimize Lists”]()
-![“Changing Categories”]()
-![“Deleting Todos”]()
+![“Add New Todo”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/add-new-todo6.gif?raw=true)
+![“Minimize Lists”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/minimize-categories.gif?raw=true)
+![“Changing Categories”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/miscategorize-edit.gif?raw=true)
+![“Deleting Todos”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/delete-todo.gif?raw=true)
