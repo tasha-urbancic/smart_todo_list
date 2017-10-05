@@ -1,5 +1,7 @@
 # Smart Todo List Project
 
+A smart, auto-categorizing todo list app. The user simply has to add the name of the thing, and it gets put into the correct list!
+
 ## Getting Started
 
 ```
