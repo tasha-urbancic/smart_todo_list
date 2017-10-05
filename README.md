@@ -30,7 +30,11 @@
 
 ## Final Product
 
+###Adding a new to-do:
 ![“Add New Todo”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/add-new-todo6.gif?raw=true)
+###Minimizing lists:
 ![“Minimize Lists”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/minimize-categories.gif?raw=true)
+###Changing categories:
 ![“Changing Categories”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/miscategorize-edit.gif?raw=true)
+###Deleting to-dos:
 ![“Deleting Todos”](https://github.com/tasha-urbancic/smart_todo_list/blob/master/docs/delete-todo.gif?raw=true)
