@@ -27,3 +27,10 @@
 
 - Node 5.10.x or above
 - NPM 3.8.x or above
+
+## Final Product
+
+![“Add New Todo”]()
+![“Minimize Lists”]()
+![“Changing Categories”]()
+![“Deleting Todos”]()
