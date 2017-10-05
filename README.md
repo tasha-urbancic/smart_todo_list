@@ -27,6 +27,29 @@
 
 - Node 5.10.x or above
 - NPM 3.8.x or above
+- bcrypt 1.0.3 or above
+- body-parser 1.15.2 or above
+- bcrypt 1.0.x or above
+- bcrypt 1.0.x or above
+- bcrypt 1.0.x or above
+- bcrypt 1.0.x or above
+
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^4.0.0-beta",
+    "connect-flash": "^0.1.1",
+    "cookie-session": "^1.3.2",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "knex": "^0.13.0",
+    "knex-logger": "^0.1.0",
+    "mixins": "0.0.1",
+    "morgan": "^1.7.0",
+    "node-sass-middleware": "^0.11.0",
+    "pg": "^7.3.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
 
 ## Final Product
 
